@@ -37,6 +37,7 @@ dependencies:
 
   svg_image: ^0.0.1
   get:
+  http:
 
 dev_dependencies:
   flutter_test:

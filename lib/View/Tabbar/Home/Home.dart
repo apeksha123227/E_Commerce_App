@@ -212,6 +212,205 @@ class Home extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: 10),
+              /*Obx(() {
+                return home_Controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : SizedBox(
+                        height: 280,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: home_Controller.productsList.length,
+                          itemBuilder: (context, index) {
+                            var item = home_Controller.productsList[index];
+                            String imageUrl = "";
+                            if (item.images != null &&
+                                item.images!.isNotEmpty &&
+                                item.images![0] != null &&
+                                item.images![0].toString().startsWith("http")) {
+                              imageUrl = item.images![0];
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 25,
+                              ),
+                              child: Column(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      topRight: Radius.circular(12),
+                                    ),
+
+                                    child: Image.network(
+                                      imageUrl,
+                                      // item.images![0],
+                                      fit: BoxFit.fill,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          " ${item.title}",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            color: AppColors.blackText,
+                                          ),
+                                        ),
+                                        Text(
+                                          " ${item.price}",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            color: AppColors.blackText,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColors.tabSelectedColor,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                            onPressed: () {},
+                                            child: Text(
+                                              "Add to Cart",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      );
+              }),*/
+               Obx(() {
+                return home_Controller.isLoading.value
+                    ? Center(child: CircularProgressIndicator())
+                    : SizedBox(
+                  height: 280,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: home_Controller.productsList.length,
+                    itemBuilder: (context, index) {
+                      var item = home_Controller.productsList[index];
+
+                      String imageUrl = "";
+                      if (item.images != null &&
+                          item.images!.isNotEmpty &&
+                          item.images![0] != null &&
+                          item.images![0].toString().startsWith("http")) {
+                        imageUrl = item.images![0];
+                      } else {
+                        imageUrl = "https://via.placeholder.com/150";
+                      }
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Container(
+                          width: 160,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 4,
+                                color: Colors.black12,
+                              )
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // IMAGE
+                              ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                                child: Image.network(
+                                  imageUrl,
+                                  height: 120,
+                                  width: 160,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.title ?? "No Title",
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        color: AppColors.blackText,
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 4),
+
+                                    Text(
+                                      "₹ ${item.price}",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppColors.blackText,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+
+                                    SizedBox(height: 8),
+
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                          AppColors.tabSelectedColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        onPressed: () {},
+                                        child: Text(
+                                          "Add to Cart",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              })
             ],
           ),
         ),
