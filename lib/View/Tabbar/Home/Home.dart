@@ -1,5 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
+import 'package:e_commerce_app/Controller/TabBar/Add_To_Cart_Controller.dart';
 import 'package:e_commerce_app/Controller/TabBar/HomeController.dart';
+import 'package:e_commerce_app/View/Tabbar/Home/Add_To_Cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -300,6 +302,7 @@ class Home extends StatelessWidget {
                         ),
                       );
               }),*/
+
                Obx(() {
                 return home_Controller.isLoading.value
                     ? Center(child: CircularProgressIndicator())
@@ -390,7 +393,11 @@ class Home extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(8),
                                           ),
                                         ),
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          final addtocart_Controller = Get.put(Add_To_Cart_Controller());
+                                          addtocart_Controller.getId.value=item.id.toString();
+                                          Get.to(Add_To_Cart());
+                                        },
                                         child: Text(
                                           "Add to Cart",
                                           style: TextStyle(
