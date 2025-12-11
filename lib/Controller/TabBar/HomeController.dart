@@ -12,7 +12,7 @@ class HomeController extends GetxController {
     "assets/images/banner_2.png",
     "assets/images/banner_3.png",
   ].obs;
-
+  RxString selectedId = "".obs;
   RxList<Products> productsList = <Products>[].obs;
   RxBool isLoading = false.obs;
   final apiService = ApiService();
@@ -29,8 +29,6 @@ class HomeController extends GetxController {
       "${ApiEndPoints.getProducts}?offset=0&limit=10",
     );
 
-    //final response=  await http.get(Uri.parse(ApiEndPoints.baseUrl+ApiEndPoints.getProducts)
-//print("${response}");
     try {
       if (response.statusCode == 200) {
         print("product get success ");

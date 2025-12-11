@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // GET request
+
   Future<http.Response> getData(String endpoint) async {
-    final url = Uri.parse(ApiEndPoints.baseUrl + endpoint);
+    final url = ApiEndPoints.baseUrl + endpoint;
     print("GET -> $url");
-    return await http.get(url);
-    //return url;
+    final response = await http.get(Uri.parse(url));
+    return response;
   }
 
 /* // POST request
