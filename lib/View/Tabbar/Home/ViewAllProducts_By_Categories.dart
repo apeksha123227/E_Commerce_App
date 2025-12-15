@@ -2,7 +2,10 @@ import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/TabBar/ViewAllProducts_By_Categorie_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
+import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:get/get.dart';
 
 class ViewAllProducts_By_Categorie extends StatelessWidget {
@@ -17,29 +20,56 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: Custom_Functions.getAppbar(
-        categoryController.getSelectedCategorieId.value,
-      ),
-      body: Container(
-        height: scrren_height,
-        width: scrren_width,
+      appBar: AppBar(
+        title: Obx(
+          () => Text(
+            "${categoryController.getselectedName.value}",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+        ),
+        leading: InkWell(
+          onTap: Get.back,
+          child: Center(
+            child:
+            SvgPicture.asset(
+              "assets/images/back.svg",
+              height: 30,
+              width: 30,
+            ),
 
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 25),
+            child: SvgPicture.asset("assets/images/cart.svg"),
+          ),
+        ],
+      ),
+
+      body: Container(
+        /* height: scrren_height,
+        width: scrren_width,*/
         child: Obx(() {
           print(
             "categoriew lenght is..${categoryController.productList.length}",
           );
-          return categoryController.productList.isEmpty &&
-                  categoryController.isLoading.value
+          return categoryController.isLoading.value
               ? Center(child: CircularProgressIndicator())
+              : categoryController.productList.isEmpty
+              ? Center(child: Text("No Data Found"))
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: SizedBox(
                     child: GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-                        childAspectRatio: 0.5,
+                        // mainAxisSpacing: 10,
+                        childAspectRatio: 9/14.5,
                       ),
                       itemCount: categoryController.productList.length,
                       itemBuilder: (context, index) {
@@ -108,9 +138,9 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () {
-                                        /* home_Controller.selectedId.value = item.id
-                                    .toString();
-                                Get.to(ProductDetail());*/
+                                        print("Sel id ${item.id}");
+                                        Get.to(ProductDetail(), arguments: {"ID": item.id.toString()});
+
                                       },
                                       child: Text(
                                         "Add to Cart",

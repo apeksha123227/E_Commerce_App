@@ -14,6 +14,7 @@ class ViewAllProducts_By_Categorie_Controller extends GetxController {
   RxBool isLoading = true.obs;
   final apiService = ApiService();
   RxList<Products> productList = <Products>[].obs;
+  RxString getselectedName="".obs;
 
   @override
   Future<void> onInit() async {
@@ -27,6 +28,7 @@ class ViewAllProducts_By_Categorie_Controller extends GetxController {
   Future<void> getProductDetails() async {
     isLoading.value = true;
     getSelectedCategorieId.value = homeController.selectedCategoriesId.value;
+    getselectedName.value = homeController.selectedCatName.value;
 
     try {
       /*  final data = await apiService.getData(ApiEndPoints.getCategories);

@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/TabBar/Product_Detail_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
+import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -38,81 +39,102 @@ class ProductDetail extends StatelessWidget {
                       ? Center(child: CircularProgressIndicator())
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-
                           children: [
-                            SizedBox(
-                              height: 300,
-                              width: double.infinity,
-                              child: Image.network(
-                                item!.images![0],
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Obx(() {
-                              if (product_Detail_Controller.isLoading.value) {
-                                return CircularProgressIndicator();
-                              }
-                              var item = product_Detail_Controller
-                                  .productsDetails
-                                  .value;
-                              var imageList = item?.images ?? [];
+                            if (item.images != null &&
+                                item.images!.isNotEmpty) ...[
+                              Obx(() {
+                                return SizedBox(
+                                  height: 300,
+                                  width: double.infinity,
+                                  child: Image.network(
+                                    item.images![product_Detail_Controller
+                                        .selectedIndex
+                                        .value],
+                                    fit: BoxFit.cover,
+                                  ),
+                                );
+                              }),
+                              SizedBox(height: 10),
+                              Obx(() {
+                                if (product_Detail_Controller.isLoading.value) {
+                                  return CircularProgressIndicator();
+                                }
+                                var item = product_Detail_Controller
+                                    .productsDetails
+                                    .value;
+                                var imageList = item?.images ?? [];
 
-                              String selectedImg = product_Detail_Controller
-                                  .imageSelectedId
-                                  .value;
+                                // String selectedImg = product_Detail_Controller
+                                //     .imageSelectedId
+                                //     .value;
 
-                              return SizedBox(
-                                height: 50,
-                                child: Center(
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: imageList.length,
-                                    itemBuilder: (context, index) {
-                                      String img = imageList[index];
-                                      bool isSelected = img == selectedImg;
+                                return SizedBox(
+                                  height: 50,
+                                  child: Center(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: imageList.length,
+                                      itemBuilder: (context, index) {
+                                        // String img = imageList[index];
+                                        bool isSelected =
+                                            product_Detail_Controller
+                                                .selectedIndex
+                                                .value ==
+                                            index;
 
-                                      return InkWell(
-                                        onTap: () {
-                                          selectedImg = img;
-                                         /* ScaffoldMessenger.of(
+                                        return InkWell(
+                                          onTap: () {
+                                            product_Detail_Controller
+                                                    .selectedIndex
+                                                    .value =
+                                                index;
+                                            // Get.appUpdate();
+                                            /* ScaffoldMessenger.of(
                                             context,
                                           ).showSnackBar(
                                             SnackBar(content: Text(img)),
                                           );*/
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                            border: Border.all(
-                                              color: isSelected
-                                                  ? Colors.green
-                                                  : Colors.transparent,
-                                              width: 1,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.network(
-                                                imageList[index],
-                                                fit: BoxFit.cover,
+                                          },
+                                          child: Obx(() {
+                                            return Container(
+                                              width: 50,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                border: Border.all(
+                                                  color:
+                                                      product_Detail_Controller
+                                                              .selectedIndex
+                                                              .value ==
+                                                          index
+                                                      ? Colors.green
+                                                      : Colors.transparent,
+                                                  width: 1,
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(
+                                                  8.0,
+                                                ),
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.network(
+                                                    imageList[index],
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          }),
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-                              );
-                            }),
+                                );
+                              }),
+                            ],
 
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -160,6 +182,7 @@ class ProductDetail extends StatelessWidget {
                                                 !product_Detail_Controller
                                                     .isChecked
                                                     .value;
+                                           // AppStorage.add_Favourite();
                                           },
                                           child: SvgPicture.asset(
                                             product_Detail_Controller
@@ -315,7 +338,7 @@ class ProductDetail extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10,)
+            SizedBox(height: 10),
           ],
         ),
       ),

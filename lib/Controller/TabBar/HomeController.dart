@@ -19,6 +19,7 @@ class HomeController extends GetxController {
   RxList<Categories> categoryList = <Categories>[].obs;
   RxBool isLoading = false.obs;
   RxString selectedCategoriesId = "".obs;
+  RxString selectedCatName="".obs;
 
 
   final apiService = ApiService();

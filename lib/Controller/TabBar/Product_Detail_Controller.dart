@@ -13,9 +13,11 @@ class Product_Detail_Controller extends GetxController {
   RxBool isLoading = true.obs;
   final apiService = ApiService();
   Rxn<Products> productsDetails = Rxn<Products>();
- // RxList<String> productImagesList = <String>[].obs;
+
+  // RxList<String> productImagesList = <String>[].obs;
   var imageSelectedId = "".obs;
-  RxBool isChecked=true.obs;
+  RxInt selectedIndex = 0.obs;
+  RxBool isChecked = true.obs;
 
   @override
   Future<void> onInit() async {
@@ -24,9 +26,12 @@ class Product_Detail_Controller extends GetxController {
     await getProductDetails();
   }
 
- Future<void> getProductDetails() async {
+  Future<void> getProductDetails() async {
     isLoading.value = true;
-    getId.value = homeController.selectedId.value;
+    // getId.value = homeController.selectedId.value;
+    if (Get.arguments != null) {
+      getId.value = Get.arguments["ID"];
+    }
 
     final response = await apiService.getData(
       "${ApiEndPoints.getProducts}/${getId.value}",
@@ -37,15 +42,14 @@ class Product_Detail_Controller extends GetxController {
         final data = jsonDecode(response.body);
         productsDetails.value = Products.fromJson(data);
 
-        var imageList = productsDetails.value?.images ?? [];
+        // var imageList = productsDetails.value?.images ?? [];
 
-        if (imageList.isNotEmpty) {
-          imageSelectedId.value = imageList[0];
-        }
-      /*  if (productImagesList.isNotEmpty) {
+        // if (imageList.isNotEmpty) {
+        //   imageSelectedId.value = imageList[0];
+        // }
+        /*  if (productImagesList.isNotEmpty) {
           imageSelectedId.value = productImagesList[0];
         }*/
-
       } else {
         print("Failed: ${response.statusCode}");
       }

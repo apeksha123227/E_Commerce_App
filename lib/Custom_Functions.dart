@@ -51,11 +51,5 @@ class Custom_Functions {
     );
   }
 
-  final OutlineInputBorder stableBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(10),
-    borderSide: const BorderSide(
-      color: AppColors.tabSelectedColor,
-      width: 1.5,
-    ),
-  );
+
 }
