@@ -5,6 +5,7 @@ class ApiEndPoints {
 
   // Endpoints
 
+  static const String getLogin = "auth/login";
   static const String getProducts = "products";
   static const String getLocation = "locations";
   static const String getCategories = "categories";

@@ -6,5 +6,7 @@ class AppColors{
   static const Color tabUnselectedColor=Color(0xFF939393);
   static const Color LightGreyText=Color(0xFFC8C8CB);
   static const Color blackText=Color(0xFF393F42);
+  static const Color buyNowCOlor=Color(0xFFF0F2F1);
+  static const Color wishlistRedColor=Color(0xFFDE1717);
 
 }

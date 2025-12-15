@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/View/HomePage.dart';
+import 'package:e_commerce_app/View/Splash.dart';
+import 'package:e_commerce_app/View/WelCome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: Splash(),
+
     );
   }
 }

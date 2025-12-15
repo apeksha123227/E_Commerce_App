@@ -38,6 +38,7 @@ dependencies:
   svg_image: ^0.0.1
   get:
   http:
+  shared_preferences: ^2.1.0
 
 dev_dependencies:
   flutter_test:
