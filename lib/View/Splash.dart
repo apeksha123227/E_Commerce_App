@@ -1,16 +1,32 @@
 import 'dart:async';
 
+import 'package:e_commerce_app/LoginScreen.dart';
+import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:e_commerce_app/View/HomePage.dart';
+import 'package:e_commerce_app/View/WelCome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Splash extends StatelessWidget {
+class Splash extends StatefulWidget {
   const Splash({super.key});
+
+  @override
+  State<Splash> createState() => _SplashState();
+
+}
+
+class _SplashState extends State<Splash> {
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(Duration(seconds: 3), () {
-      Get.offAll(() => const HomePage());
+
+      if(AppStorage.isLoggedIn){
+        Get.offAll(() => HomePage());
+      }
+      else{
+        Get.offAll(() => WelCome());
+      }
     });
 
     return Scaffold(
@@ -27,3 +43,4 @@ class Splash extends StatelessWidget {
     );
   }
 }
+

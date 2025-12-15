@@ -9,7 +9,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final login_Controller = Get.put(LoginScreen_Controller());
+    final login_Controller = Get.find<LoginScreen_Controller>();
 
     return Scaffold(
       body: Center(

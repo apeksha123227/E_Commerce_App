@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
+import 'package:e_commerce_app/LoginScreen.dart';
+import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:e_commerce_app/View/HomePage.dart';
 import 'package:e_commerce_app/View/Splash.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +17,16 @@ class LoginScreen_Controller extends GetxController {
   var isLoading = false.obs;
   var isPasswordVisible = false.obs;
 
+  RxBool isLogin = false.obs;
+  RxString email = "".obs;
+  final appstorage = AppStorage();
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    isLogin.value = AppStorage.isLoggedIn;
+    email.value = AppStorage.email;
   }
 
   Future<void> getLogin() async {
@@ -31,18 +41,17 @@ class LoginScreen_Controller extends GetxController {
       isLoading.value = false;
 
       if (response.statusCode == 201 || response.statusCode == 200) {
-        Get.snackbar(
-          "Login Success",
-          "Welcome back!",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        Get.offAll(Splash());
+        //final data = jsonDecode(response.body);
+
+        //save user
+        await AppStorage.savedLogin(email: emailController.text.trim());
+        isLogin.value = true;
+        email.value = emailController.text.trim();
+        Get.offAll(() => HomePage());
+        print("${email.value}");
+        print("IS LOGGED IN: ${AppStorage.isLoggedIn}");
       } else {
-        Get.snackbar(
-          "Login Failed",
-          "Something went wrong",
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        Get.snackbar("Login Failed", "Invalid credentials");
         print("Login faild");
       }
     } catch (e) {
@@ -51,6 +60,16 @@ class LoginScreen_Controller extends GetxController {
 
     isLoading.value = false;
   }
+
+  /*
+
+  Future<void> logout() async {
+    await AppStorage.logout();
+    isLogin.value = false;
+    email.value = "";
+    Get.offAll(() => LoginScreen());
+  }
+*/
 
   @override
   void onClose() {

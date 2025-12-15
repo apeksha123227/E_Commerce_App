@@ -20,6 +20,7 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
+     //   physics: NeverScrollableScrollPhysics(),
         child: Container(
           height: scrren_height,
           width: scrren_width,
@@ -199,8 +200,12 @@ class Home extends StatelessWidget {
                                                     .selectedCategoriesId
                                                     .value = item.id
                                                     .toString();
+                                                print("Selected id is${ home_Controller
+                                                    .selectedCategoriesId
+                                                    .value = item.id
+                                                    .toString()}");
                                                 Get.to(
-                                                  ViewAllProducts_By_Categorie(),
+                                                  ViewAllProducts_By_Categorie()
                                                 );
                                               },
                                               child: Container(
@@ -273,7 +278,7 @@ class Home extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   GridForProdcut(home_Controller),
-                  SizedBox(height: 20),
+                 SizedBox(height: 20),
                 ],
               )
         ),
@@ -291,12 +296,13 @@ class Home extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: GridView.builder(
+            physics: NeverScrollableScrollPhysics(),
             itemCount: home_Controller.productsList.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 0.55, // adjust card height
+//mainAxisSpacing: 5,
+              childAspectRatio: 0.60, // adjust card height
             ),
             itemBuilder: (context, index) {
               var item = home_Controller.productsList[index];

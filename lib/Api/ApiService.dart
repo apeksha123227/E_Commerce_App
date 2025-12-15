@@ -26,13 +26,16 @@ class ApiService {
   }
 
   static Future<List<dynamic>> getCategoryProducts(String categoryId) async {
-    final url = "${ApiEndPoints.baseUrl}/categories/$categoryId/products";
+    final url = "${ApiEndPoints.baseUrl}categories/${categoryId}/products";
+    // final url = "https://api.escuelajs.co/api/v1/categories/4/products";
     print("GET -> $url");
 
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      final data = jsonDecode(response.body);
+      print("API Response: $response");
+      return data;
     } else {
       throw Exception("Failed to load products");
     }
@@ -49,12 +52,8 @@ class ApiService {
 
     return await http.post(
       Uri.parse(url),
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
   }
-
-
 }

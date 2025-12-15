@@ -24,114 +24,113 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
         height: scrren_height,
         width: scrren_width,
 
-        child: Expanded(
-          child: Obx(() {
-          print("categoriew lenght is..${categoryController.productList.length}");
-            return categoryController.productList.isEmpty &&
-                    categoryController.isLoading.value
-                ? Center(child: CircularProgressIndicator())
-                : Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: SizedBox(
-                      child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 0.7,
-                        ),
-                        itemCount: categoryController.productList.length,
-                        itemBuilder: (context, index) {
-                          var item = categoryController.productList[index];
-
-                          String imageUrl =
-                              (item.images != null &&
-                                  item.images!.isNotEmpty &&
-                                  item.images![0].startsWith("http"))
-                              ? item.images![0]
-                              : "https://via.placeholder.com/150";
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // IMAGE
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12),
-                                ),
-                                child: Image.network(
-                                  imageUrl,
-                                  height: 120,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item.title ?? "No Title",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        color: AppColors.blackText,
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 4),
-
-                                    Text(
-                                      "₹ ${item.price}",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-
-                                    SizedBox(height: 4),
-
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              AppColors.tabSelectedColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              8,
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          /* home_Controller.selectedId.value = item.id
-                                      .toString();
-                                  Get.to(ProductDetail());*/
-                                        },
-                                        child: Text(
-                                          "Add to Cart",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
+        child: Obx(() {
+          print(
+            "categoriew lenght is..${categoryController.productList.length}",
+          );
+          return categoryController.productList.isEmpty &&
+                  categoryController.isLoading.value
+              ? Center(child: CircularProgressIndicator())
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25),
+                  child: SizedBox(
+                    child: GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.5,
                       ),
+                      itemCount: categoryController.productList.length,
+                      itemBuilder: (context, index) {
+                        var item = categoryController.productList[index];
+                        String imageUrl =
+                            (item.images != null &&
+                                item.images!.isNotEmpty &&
+                                item.images![0].startsWith("http"))
+                            ? item.images![0]
+                            : "https://via.placeholder.com/150";
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // IMAGE
+                            ClipRRect(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(12),
+                                topRight: Radius.circular(12),
+                              ),
+                              child: Image.network(
+                                imageUrl,
+                                height: 120,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item.title ?? "No Title",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: AppColors.blackText,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 4),
+
+                                  Text(
+                                    "₹ ${item.price}",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+
+                                  SizedBox(height: 4),
+
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            AppColors.tabSelectedColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                      ),
+                                      onPressed: () {
+                                        /* home_Controller.selectedId.value = item.id
+                                    .toString();
+                                Get.to(ProductDetail());*/
+                                      },
+                                      child: Text(
+                                        "Add to Cart",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        );
+                      },
                     ),
-                  );
-          }),
-        ),
+                  ),
+                );
+        }),
       ),
     );
   }

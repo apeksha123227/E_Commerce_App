@@ -18,6 +18,9 @@ class ViewAllProducts_By_Categorie_Controller extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+    print(
+      "Selected id is ${getSelectedCategorieId.value = homeController.selectedCategoriesId.value}",
+    );
     await getProductDetails();
   }
 
@@ -28,12 +31,19 @@ class ViewAllProducts_By_Categorie_Controller extends GetxController {
     try {
       /*  final data = await apiService.getData(ApiEndPoints.getCategories);
       productList.value = data.map((e) => Products.fromJson(e)).toList();*/
-      final response = await ApiService.getCategoryProducts(
-        getSelectedCategorieId.value ,
-      );
-      productList.value = response.map((e) => Products.fromJson(e)).toList();
-
-      print("Categories Products loaded successfully");
+      final response = await ApiService.getCategoryProducts(getSelectedCategorieId.value);
+    /*  productList.assignAll(
+          response.map((e) => Products.fromJson(e)).toList());*/
+      print("List length: ${productList.length}");
+      if (response is List) {
+        productList.assignAll(
+          response.map((e) => Products.fromJson(e)).toList(),
+        );
+        print("List length: ${productList.length}");
+      } else {
+        print("API returned unexpected data: $response");
+        productList.clear();
+      }
     } catch (e) {
       print(e);
     }
