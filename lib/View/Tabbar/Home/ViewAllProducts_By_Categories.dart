@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/TabBar/ViewAllProducts_By_Categorie_Controller.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/ViewAllProducts_By_Categorie_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
@@ -30,13 +30,11 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
         leading: InkWell(
           onTap: Get.back,
           child: Center(
-            child:
-            SvgPicture.asset(
+            child: SvgPicture.asset(
               "assets/images/back.svg",
               height: 30,
               width: 30,
             ),
-
           ),
         ),
         actions: [
@@ -63,23 +61,23 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                   child: SizedBox(
                     child: GridView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                    //  physics: NeverScrollableScrollPhysics(),
 
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
                         // mainAxisSpacing: 10,
-                        childAspectRatio: 9/14.5,
+                        childAspectRatio: 9 / 14.4,
                       ),
                       itemCount: categoryController.productList.length,
                       itemBuilder: (context, index) {
                         var item = categoryController.productList[index];
-                        String imageUrl =
+                        /* String imageUrl =
                             (item.images != null &&
                                 item.images!.isNotEmpty &&
                                 item.images![0].startsWith("http"))
                             ? item.images![0]
-                            : "https://via.placeholder.com/150";
+                            : "https://via.placeholder.com/150";*/
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,10 +89,16 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                                 topRight: Radius.circular(12),
                               ),
                               child: Image.network(
-                                imageUrl,
+                                item.images![0] ?? "",
                                 height: 120,
                                 width: double.infinity,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    "assets/images/placholder.png",
+                                    fit: BoxFit.fill,
+                                  );
+                                },
                               ),
                             ),
 
@@ -138,9 +142,11 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                                         ),
                                       ),
                                       onPressed: () {
-                                        print("Sel id ${item.id}");
-                                        Get.to(ProductDetail(), arguments: {"ID": item.id.toString()});
-
+                                        print("id ${item.id}");
+                                        Get.to(
+                                          ProductDetail(),
+                                          arguments: {"ID": item.id.toString()},
+                                        );
                                       },
                                       child: Text(
                                         "Add to Cart",

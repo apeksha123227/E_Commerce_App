@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
-import 'package:e_commerce_app/Controller/TabBar/HomeController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +15,7 @@ class Product_Detail_Controller extends GetxController {
   Rxn<Products> productsDetails = Rxn<Products>();
 
   // RxList<String> productImagesList = <String>[].obs;
-  var imageSelectedId = "".obs;
+ // var imageSelectedId = "".obs;
   RxInt selectedIndex = 0.obs;
   RxBool isChecked = true.obs;
 

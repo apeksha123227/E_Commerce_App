@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'AppColors.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+   LoginScreen({super.key});
+  final login_Controller = Get.put(LoginScreen_Controller());
 
   @override
   Widget build(BuildContext context) {
-    final login_Controller = Get.find<LoginScreen_Controller>();
 
     return Scaffold(
       body: Center(
@@ -137,10 +137,10 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             login_Controller.isLoading.value
                                 ? null
-                                : login_Controller.getLogin();
+                                : await login_Controller.getLogin();
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.tabSelectedColor,

@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/TabBar/Product_Detail_Controller.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/Product_Detail_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +11,14 @@ class ProductDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrren_width = MediaQuery.of(context).size.width;
-    final scrren_height = MediaQuery.of(context).size.height;
+    final scrren_width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    final scrren_height = MediaQuery
+        .of(context)
+        .size
+        .height;
     final product_Detail_Controller = Get.put(Product_Detail_Controller());
 
     return Scaffold(
@@ -23,253 +29,269 @@ class ProductDetail extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: SingleChildScrollView(
-                child: Obx(() {
-                  if (product_Detail_Controller.isLoading.value) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  final item = product_Detail_Controller.productsDetails.value;
-                  // String selectedImg = product_Detail_Controller.imageSelectedId.value;
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Obx(() {
+                    if (product_Detail_Controller.isLoading.value) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    final item = product_Detail_Controller.productsDetails
+                        .value;
+                    // String selectedImg = product_Detail_Controller.imageSelectedId.value;
 
-                  if (item == null) {
-                    return Center(child: Text("No product found"));
-                  }
+                    if (item == null) {
+                      return Center(child: Text("No product found"));
+                    }
 
-                  return product_Detail_Controller.isLoading.value
-                      ? Center(child: CircularProgressIndicator())
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (item.images != null &&
-                                item.images!.isNotEmpty) ...[
-                              Obx(() {
-                                return SizedBox(
-                                  height: 300,
-                                  width: double.infinity,
-                                  child: Image.network(
-                                    item.images![product_Detail_Controller
-                                        .selectedIndex
-                                        .value],
-                                    fit: BoxFit.cover,
-                                  ),
-                                );
-                              }),
-                              SizedBox(height: 10),
-                              Obx(() {
-                                if (product_Detail_Controller.isLoading.value) {
-                                  return CircularProgressIndicator();
-                                }
-                                var item = product_Detail_Controller
-                                    .productsDetails
-                                    .value;
-                                var imageList = item?.images ?? [];
+                    return product_Detail_Controller.isLoading.value
+                        ? Center(child: CircularProgressIndicator())
+                        : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (item.images != null &&
+                            item.images!.isNotEmpty) ...[
+                          Obx(() {
+                            return SizedBox(
+                              height: 300,
+                              width: double.infinity,
+                              child: Image.network(
+                                item.images![product_Detail_Controller
+                                    .selectedIndex
+                                    .value],
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return
+                                    Image.asset("assets/images/placholder.png",
+                                      fit: BoxFit.fill,);
+                                },
+                              ),
+                            );
+                          }),
+                          SizedBox(height: 10),
+                          Obx(() {
+                            if (product_Detail_Controller.isLoading.value) {
+                              return CircularProgressIndicator();
+                            }
+                            var item = product_Detail_Controller
+                                .productsDetails
+                                .value;
+                            var imageList = item?.images ?? [];
 
-                                // String selectedImg = product_Detail_Controller
-                                //     .imageSelectedId
-                                //     .value;
+                            // String selectedImg = product_Detail_Controller
+                            //     .imageSelectedId
+                            //     .value;
 
-                                return SizedBox(
-                                  height: 50,
-                                  child: Center(
-                                    child: ListView.builder(
-                                      shrinkWrap: true,
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: imageList.length,
-                                      itemBuilder: (context, index) {
-                                        // String img = imageList[index];
-                                        bool isSelected =
-                                            product_Detail_Controller
-                                                .selectedIndex
-                                                .value ==
+                            return SizedBox(
+                              height: 50,
+                              child: Center(
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: imageList.length,
+                                  itemBuilder: (context, index) {
+                                    // String img = imageList[index];
+                                    bool isSelected =
+                                        product_Detail_Controller
+                                            .selectedIndex
+                                            .value ==
                                             index;
 
-                                        return InkWell(
-                                          onTap: () {
-                                            product_Detail_Controller
-                                                    .selectedIndex
-                                                    .value =
-                                                index;
-                                            // Get.appUpdate();
-                                            /* ScaffoldMessenger.of(
-                                            context,
-                                          ).showSnackBar(
-                                            SnackBar(content: Text(img)),
-                                          );*/
-                                          },
-                                          child: Obx(() {
-                                            return Container(
-                                              width: 50,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                  color:
-                                                      product_Detail_Controller
-                                                              .selectedIndex
-                                                              .value ==
-                                                          index
-                                                      ? Colors.green
-                                                      : Colors.transparent,
-                                                  width: 1,
-                                                ),
-                                              ),
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(
-                                                  8.0,
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.network(
-                                                    imageList[index],
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }),
-                                        );
+                                    return InkWell(
+                                      onTap: () {
+                                        product_Detail_Controller
+                                            .selectedIndex
+                                            .value =
+                                            index;
+                                        // Get.appUpdate();
+                                        /* ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              SnackBar(content: Text(img)),
+                                            );*/
                                       },
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ],
-
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 25,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                right: 25,
-                                              ),
-                                              child:
-                                                  Custom_Functions.getTextStyle_16_blackTxt(
-                                                    "${item!.title ?? ""}",
-                                                    fontweight: FontWeight.bold,
-                                                  ),
+                                      child: Obx(() {
+                                        return Container(
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                            BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color:
+                                              product_Detail_Controller
+                                                  .selectedIndex
+                                                  .value ==
+                                                  index
+                                                  ? Colors.green
+                                                  : Colors.transparent,
+                                              width: 1,
                                             ),
-                                            SizedBox(height: 2),
-                                            Text(
-                                              "₹ ${item!.price ?? ""}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 19,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(
+                                              8.0,
+                                            ),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                              BorderRadius.circular(10),
+                                              child: Image.network(
+                                                imageList[index],
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error, stackTrace) {
+                                                  return
+                                                    Image.asset("assets/images/placholder.png",
+                                                      fit: BoxFit.fill,);
+                                                },
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      Obx(() {
-                                        return InkWell(
-                                          onTap: () {
-                                            product_Detail_Controller
-                                                    .isChecked
-                                                    .value =
-                                                !product_Detail_Controller
-                                                    .isChecked
-                                                    .value;
-                                           // AppStorage.add_Favourite();
-                                          },
-                                          child: SvgPicture.asset(
-                                            product_Detail_Controller
-                                                    .isChecked
-                                                    .value
-                                                ? "assets/images/wishlist.svg"
-                                                : "assets/images/wishlistRed.svg",
                                           ),
                                         );
                                       }),
-                                    ],
-                                  ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            );
+                          }),
+                        ],
 
-                                  SizedBox(height: 10),
-                                  Obx(() {
-                                    var item = product_Detail_Controller
-                                        .productsDetails
-                                        .value;
-                                    String? categoryImage =
-                                        item?.category?.image;
-                                    return Row(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 25,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
-                                        CircleAvatar(
-                                          radius: 27,
-                                          backgroundImage: categoryImage != null
-                                              ? NetworkImage(categoryImage)
-                                              : null,
-                                        ),
                                         Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 20,
-                                          ),
-                                          child: Text(
-                                            "${item!.category!.name ?? ""}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 19,
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        ElevatedButton(
-                                          onPressed: () {},
-                                          style: ElevatedButton.styleFrom(
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              side: BorderSide(
-                                                color: AppColors.LightGreyText,
-                                                // Border color
-                                                width: 0.5, // Border width
-                                              ), // Rounded corners
-                                            ),
+                                          padding: const EdgeInsets.only(
+                                            right: 25,
                                           ),
                                           child:
-                                              Custom_Functions.getTextStyle_16_blackTxt(
-                                                "Follow",
-                                                fontweight: FontWeight.w500,
-                                              ),
+                                          Custom_Functions
+                                              .getTextStyle_16_blackTxt(
+                                            "${item!.title ?? ""}",
+                                            fontweight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SizedBox(height: 2),
+                                        Text(
+                                          "₹ ${item!.price ?? ""}",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 19,
+                                          ),
                                         ),
                                       ],
-                                    );
-                                  }),
-                                  SizedBox(height: 13),
-                                  Custom_Functions.getTextStyle_16_blackTxt(
-                                    "Description of product",
-                                    fontweight: FontWeight.bold,
+                                    ),
                                   ),
-                                  SizedBox(height: 13),
+
                                   Obx(() {
-                                    var item = product_Detail_Controller
-                                        .productsDetails
-                                        .value;
-                                    return Text(
-                                      "${item!.description!}",
-                                      style: TextStyle(
-                                        color: AppColors.blackText,
-                                        fontSize: 14,
+                                    return InkWell(
+                                      onTap: () {
+                                        product_Detail_Controller
+                                            .isChecked
+                                            .value =
+                                        !product_Detail_Controller
+                                            .isChecked
+                                            .value;
+                                        // AppStorage.add_Favourite();
+                                      },
+                                      child: SvgPicture.asset(
+                                        product_Detail_Controller
+                                            .isChecked
+                                            .value
+                                            ? "assets/images/wishlist.svg"
+                                            : "assets/images/wishlistRed.svg",
                                       ),
                                     );
                                   }),
                                 ],
                               ),
-                            ),
-                          ],
-                        );
-                }),
+
+                              SizedBox(height: 10),
+                              Obx(() {
+                                var item = product_Detail_Controller
+                                    .productsDetails
+                                    .value;
+                                String? categoryImage =
+                                    item?.category?.image;
+                                return Row(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 27,
+                                      backgroundImage: categoryImage != null
+                                          ? NetworkImage(categoryImage)
+                                          : null,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: Text(
+                                        "${item!.category!.name ?? ""}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(10),
+                                          side: BorderSide(
+                                            color: AppColors.LightGreyText,
+                                            // Border color
+                                            width: 0.5, // Border width
+                                          ), // Rounded corners
+                                        ),
+                                      ),
+                                      child:
+                                      Custom_Functions.getTextStyle_16_blackTxt(
+                                        "Follow",
+                                        fontweight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }),
+                              SizedBox(height: 13),
+                              Custom_Functions.getTextStyle_16_blackTxt(
+                                "Description of product",
+                                fontweight: FontWeight.bold,
+                              ),
+                              SizedBox(height: 13),
+                              Obx(() {
+                                var item = product_Detail_Controller
+                                    .productsDetails
+                                    .value;
+                                return Text(
+                                  "${item!.description!}",
+                                  style: TextStyle(
+                                    color: AppColors.blackText,
+                                    fontSize: 14,
+                                  ),
+                                );
+                              }),
+                              SizedBox(height: 10,),
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }),
+                ),
               ),
             ),
             Container(

@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/TabBar/HomeController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/TabBar/AllCategories_Controller.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/AllCategories_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
+import 'package:e_commerce_app/View/Tabbar/Home/ViewAllProducts_By_Categories.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -39,9 +40,13 @@ class AllCategories extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              /*  home_Controller.selectedCategorieId.value = item.id
-                            .toString();
-                        Get.to(ViewAllProducts_By_Categorie());*/
+                              Get.to(
+                                ViewAllProducts_By_Categorie(),
+                                arguments: {
+                                  "CategoriesID": item.id.toString(),
+                                  "CategoriesName": item.name.toString(),
+                                },
+                              );
                             },
                             child: Container(
                               width: 80,
@@ -53,7 +58,11 @@ class AllCategories extends StatelessWidget {
                                   item.image ?? "",
                                   fit: BoxFit.fill,
                                   errorBuilder: (context, error, stackTrace) {
-                                    return Image.network("https://via.placeholder.com/150");
+                                    return /*Image.network(
+                                      "https://via.placeholder.com/150",
+                                    );*/
+                                      Image.asset( "assets/images/placholder.png",fit: BoxFit.fill,);
+                                    //Container();
                                   },
                                 ),
                               ),

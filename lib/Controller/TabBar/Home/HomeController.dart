@@ -14,7 +14,7 @@ class HomeController extends GetxController {
     "assets/images/banner_3.png",
   ].obs;
 
-  RxString selectedId = "".obs;
+ // RxString selectedId = "".obs;
   RxList<Products> productsList = <Products>[].obs;
   RxList<Categories> categoryList = <Categories>[].obs;
   RxBool isLoading = false.obs;

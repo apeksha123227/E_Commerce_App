@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
-import 'package:e_commerce_app/Controller/TabBar/HomeController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
+import 'package:e_commerce_app/Model/TabBar/Account/UserModel.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,10 +44,6 @@ class ApiService {
 
   // POST request
   Future<http.Response> postData(String endpoint, Map body) async {
-    /*final url = ApiEndPoints.baseUrl + endpoint;
-    print("POST -> $url");
-    return await http.post(url as Uri, body: body);*/
-
     final url = ApiEndPoints.baseUrl + endpoint;
     print("POST -> $url");
 
@@ -55,5 +52,27 @@ class ApiService {
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(body),
     );
+  }
+
+  //Get UserProfile
+
+  static Future<UserModel> getUserProfile(
+    String accessToken
+  ) async {
+    final url = ApiEndPoints.baseUrl + ApiEndPoints.getProfile;
+    print("User -> $url");
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $accessToken',
+      },
+    );
+print("response.statusCode ${response.statusCode}");
+    if (response.statusCode == 200||response.statusCode == 201) {
+      return UserModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load profile');
+    }
   }
 }

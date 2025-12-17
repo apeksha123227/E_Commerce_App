@@ -39,6 +39,9 @@ dependencies:
   get:
   http:
   shared_preferences: ^2.1.0
+  flutter_secure_storage:
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.0
 
 dev_dependencies:
   flutter_test:

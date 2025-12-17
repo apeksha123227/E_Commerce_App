@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class HomePageController extends GetxController {
+class DashBoardController extends GetxController {
 
   RxInt selectedIndex=0.obs;
 

@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/HomePageController.dart';
-import 'package:e_commerce_app/View/Tabbar/Account.dart';
+import 'package:e_commerce_app/Controller/DashboardController.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/Account.dart';
 import 'package:e_commerce_app/View/Tabbar/History.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Home.dart';
 import 'package:e_commerce_app/View/Tabbar/Wishlist.dart';
@@ -8,22 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class DashBoard extends StatelessWidget {
+  DashBoard({super.key});
+  final dashboard_Controller = Get.put(DashBoardController(),permanent: true);
 
   @override
   Widget build(BuildContext context) {
     final screen_width = MediaQuery.of(context).size.width;
     final screen_height = MediaQuery.of(context).size.height;
 
-    final home_Controller = Get.put(HomePageController());
     final screens = [Home(), Wishlist(), History(), Account()];
 
     return Obx(
       () => Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: home_Controller.selectedIndex.value,
-          onTap: home_Controller.changeIndex,
+          currentIndex: dashboard_Controller.selectedIndex.value,
+          onTap: dashboard_Controller.changeIndex,
           showSelectedLabels: true,
           showUnselectedLabels: true,
           selectedItemColor: AppColors.tabSelectedColor,
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/Home.svg',
-                color: home_Controller.selectedIndex.value == 0
+                color: dashboard_Controller.selectedIndex.value == 0
                     ? AppColors.tabSelectedColor
                     : AppColors.tabUnselectedColor,
               ),
@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/wishlist.svg',
-                color: home_Controller.selectedIndex.value == 1
+                color: dashboard_Controller.selectedIndex.value == 1
                     ? AppColors.tabSelectedColor
                     :AppColors.tabUnselectedColor,
               ),
@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/History.svg',
-                color: home_Controller.selectedIndex.value == 2
+                color: dashboard_Controller.selectedIndex.value == 2
                     ? AppColors.tabSelectedColor
                     : AppColors.tabUnselectedColor,
               ),
@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/Profile.svg',
-                color: home_Controller.selectedIndex.value == 3
+                color: dashboard_Controller.selectedIndex.value == 3
                     ? AppColors.tabSelectedColor
                     :AppColors.tabUnselectedColor,
               ),
@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        body: screens[home_Controller.selectedIndex.value],
+        body: screens[dashboard_Controller.selectedIndex.value],
       ),
     );
   }

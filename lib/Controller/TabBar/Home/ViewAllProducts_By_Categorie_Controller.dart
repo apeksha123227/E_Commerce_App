@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
-import 'package:e_commerce_app/Controller/TabBar/HomeController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
 import 'package:get/get.dart';
@@ -14,27 +14,30 @@ class ViewAllProducts_By_Categorie_Controller extends GetxController {
   RxBool isLoading = true.obs;
   final apiService = ApiService();
   RxList<Products> productList = <Products>[].obs;
-  RxString getselectedName="".obs;
+  RxString getselectedName = "".obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    print(
-      "Selected id is ${getSelectedCategorieId.value = homeController.selectedCategoriesId.value}",
-    );
+    print("Selected id is ${getSelectedCategorieId.value}");
     await getProductDetails();
   }
 
   Future<void> getProductDetails() async {
     isLoading.value = true;
-    getSelectedCategorieId.value = homeController.selectedCategoriesId.value;
-    getselectedName.value = homeController.selectedCatName.value;
+    if (Get.arguments != null) {
+      getSelectedCategorieId.value = Get.arguments["CategoriesID"];
+      getselectedName.value = Get.arguments["CategoriesName"];
+    }
+    //  getselectedName.value = homeController.selectedCatName.value;
 
     try {
       /*  final data = await apiService.getData(ApiEndPoints.getCategories);
       productList.value = data.map((e) => Products.fromJson(e)).toList();*/
-      final response = await ApiService.getCategoryProducts(getSelectedCategorieId.value);
-    /*  productList.assignAll(
+      final response = await ApiService.getCategoryProducts(
+        getSelectedCategorieId.value,
+      );
+      /*  productList.assignAll(
           response.map((e) => Products.fromJson(e)).toList());*/
       print("List length: ${productList.length}");
       if (response is List) {
