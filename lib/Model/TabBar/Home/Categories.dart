@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Categories {
   int? id;
@@ -7,13 +8,14 @@ class Categories {
   String? creationAt;
   String? updatedAt;
 
-  Categories(
-      {this.id,
-        this.name,
-        this.slug,
-        this.image,
-        this.creationAt,
-        this.updatedAt});
+  Categories({
+    this.id,
+    this.name,
+    this.slug,
+    this.image,
+    this.creationAt,
+    this.updatedAt,
+  });
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,5 +35,18 @@ class Categories {
     data['creationAt'] = this.creationAt;
     data['updatedAt'] = this.updatedAt;
     return data;
+  }
+
+  factory Categories.fromMap(Map<String, dynamic> map) {
+    return Categories(
+      id: map['categoryId'],
+      name: map['name'] ?? '',
+      slug: map['slug'] ?? '',
+      image: map['image'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {'categoryId': id, 'name': name, 'slug': slug, 'image': image};
   }
 }

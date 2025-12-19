@@ -11,5 +11,6 @@ class ApiEndPoints {
   static const String getCategories = "categories";
   static const String getRefreshToken = "auth/refresh-token";
   static const String getProfile = "auth/profile";
+  static const String updateUserProfile = "users";
 
 }

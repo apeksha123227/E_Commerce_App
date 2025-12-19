@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Model/TabBar/Account/UserModel.dart';
+import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -56,9 +57,7 @@ class ApiService {
 
   //Get UserProfile
 
-  static Future<UserModel> getUserProfile(
-    String accessToken
-  ) async {
+  static Future<UserModel> getUserProfile(String accessToken) async {
     final url = ApiEndPoints.baseUrl + ApiEndPoints.getProfile;
     print("User -> $url");
     final response = await http.get(
@@ -68,11 +67,56 @@ class ApiService {
         'Authorization': 'Bearer $accessToken',
       },
     );
-print("response.statusCode ${response.statusCode}");
-    if (response.statusCode == 200||response.statusCode == 201) {
+    print("response.statusCode ${response.statusCode}");
+    if (response.statusCode == 200 || response.statusCode == 201) {
       return UserModel.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load profile');
     }
+  }
+
+  // update user
+
+  Future<http.Response> updateUserProfile(
+    int id,
+    String name,
+    String email,
+    String? token,
+  ) async {
+    final url = ApiEndPoints.baseUrl + ApiEndPoints.updateUserProfile;
+    print("UpdateUser -> $url");
+
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({"name": name, "email": email}),
+    );
+
+    return response;
+  }
+
+  // Refresh access token
+
+  Future<String?> refreshToke() async {
+    final getrefreshtoken = SecureStorageHelper.instance.get_RefreshToken();
+    if (getrefreshtoken == null) return null;
+    final url = ApiEndPoints.baseUrl + ApiEndPoints.getRefreshToken;
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"refreshToken": getrefreshtoken}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final newtoken = data["access_token"];
+      await SecureStorageHelper.instance.save_Token(accesstoken: newtoken);
+      print("new Access token  ${newtoken}");
+    }
+
+    return null;
   }
 }

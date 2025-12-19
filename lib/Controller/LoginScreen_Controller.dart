@@ -48,10 +48,15 @@ class LoginScreen_Controller extends GetxController {
         final refreshtoken = data['refresh_token'];
         await SecureStorageHelper.instance.save_Token(
           accesstoken: accesstoken,
-          refreshtoken: refreshtoken,
+          // refreshtoken: refreshtoken,
         );
         print("LOGIN CONTROLLER ACCESS TOKEN: ${accesstoken}");
         print("LOGIN CONTROLLER REFRESH TOKEN: ${refreshtoken}");
+/*
+        await SecureStorageHelper.instance.save_UserId(
+          userid: user!.value!.id.toString(),
+        );
+        print("userId ${user!.value!.id.toString()}");*/
 
         //save User
         final userModel = UserModel.fromJson(data);

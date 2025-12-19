@@ -3,7 +3,7 @@ import 'package:e_commerce_app/Controller/DashboardController.dart';
 import 'package:e_commerce_app/View/Tabbar/Account/Account.dart';
 import 'package:e_commerce_app/View/Tabbar/History.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Home.dart';
-import 'package:e_commerce_app/View/Tabbar/Wishlist.dart';
+import 'package:e_commerce_app/View/Tabbar/Wishlist/Wishlist.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -90,30 +90,37 @@ class Account extends StatelessWidget {
                                   vertical: 30,
                                 ),
                                 child: Column(
-                                  children: [
+                                    children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Icon(
-                                          Icons.cancel,
-                                          color: AppColors.tabSelectedColor,
-                                        ),
-                                      ],
-                                    ),
-                                    Center(
-                                      child: Text(
-                                        "Update Details",
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500,
-                                          color: AppColors.tabUnselectedColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                InkWell(
+                                onTap:(){
+                                Get.back();
+                              },
+                                child: Icon(
+                                Icons.cancel,
+                                color: AppColors.tabSelectedColor,
                               ),
                             ),
+                            ],
+                          ),
+                          Center(
+                          child: Text(
+                          "Update Details",
+                          style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.tabUnselectedColor,
+                          ),
+                          ),
+                          ),
+                          ],
+                          ),
+                          )
+                          ,
+                          )
+                          ,
                           );
                         },
                         child: Icon(Icons.mode_edit, color: Colors.white),
@@ -151,6 +158,7 @@ class Account extends StatelessWidget {
             ),
           ),
         ],
+
       );
     });
   }

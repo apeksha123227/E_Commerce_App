@@ -1,6 +1,10 @@
+import 'dart:ffi';
+
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
+import 'package:e_commerce_app/Firebase/FirebaseService.dart';
+import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -13,9 +17,10 @@ class Product_Detail_Controller extends GetxController {
   RxBool isLoading = true.obs;
   final apiService = ApiService();
   Rxn<Products> productsDetails = Rxn<Products>();
+  final FirebaseService service = FirebaseService();
 
   // RxList<String> productImagesList = <String>[].obs;
- // var imageSelectedId = "".obs;
+  // var imageSelectedId = "".obs;
   RxInt selectedIndex = 0.obs;
   RxBool isChecked = true.obs;
 
@@ -30,7 +35,7 @@ class Product_Detail_Controller extends GetxController {
     isLoading.value = true;
     // getId.value = homeController.selectedId.value;
     if (Get.arguments != null) {
-      getId.value = Get.arguments["ID"];
+      getId.value = Get.arguments["ID"].toString();
     }
 
     final response = await apiService.getData(
@@ -41,15 +46,7 @@ class Product_Detail_Controller extends GetxController {
         print("product get success ");
         final data = jsonDecode(response.body);
         productsDetails.value = Products.fromJson(data);
-
-        // var imageList = productsDetails.value?.images ?? [];
-
-        // if (imageList.isNotEmpty) {
-        //   imageSelectedId.value = imageList[0];
-        // }
-        /*  if (productImagesList.isNotEmpty) {
-          imageSelectedId.value = productImagesList[0];
-        }*/
+        await getwishlist();
       } else {
         print("Failed: ${response.statusCode}");
       }
@@ -57,5 +54,47 @@ class Product_Detail_Controller extends GetxController {
       print("Error occurred: $e");
     }
     isLoading.value = false;
+  }
+
+  //add
+
+  Future<void> addWishList({
+    // required String userId,
+    required String productId,
+    required String title,
+    required String price,
+    // required String images,
+    // required String catrgorie
+  }) async {
+    await service.addWishListCollection(
+      Products(
+        id: int.parse(productId),
+        /*   description: description,*/
+        price: int.parse(price),
+        title: title,
+
+        // images: images,
+      ),
+    );
+    isChecked.value = true;
+    await getwishlist();
+  }
+
+  //get
+
+  Future<void> getwishlist() async {
+    if (productsDetails.value == null) return;
+    final productId = productsDetails.value!.id.toString();
+    isChecked.value = await service.isProductInWishlist(productId);
+    /* isLoading.value = true;
+    productsDetails.value = service.getwishlist() as Products?;
+    isLoading.value = false;*/
+  }
+
+  //delete
+
+  Future<void> removefrowishlist(String id) async {
+    await service.deleteUser(id);
+    isChecked.value = false;
   }
 }

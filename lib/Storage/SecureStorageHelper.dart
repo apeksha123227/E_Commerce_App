@@ -13,16 +13,24 @@ class SecureStorageHelper {
   static const String _accessTokenKey = "access";
   static const String _refreshTokenKey = "refresh";
   static const String _UserData = "userDetails";
+  static const String _UserID = "userID";
 
   //save Token
 
   Future<void> save_Token({
     required String accesstoken,
-    required String refreshtoken,
+    // required String refreshtoken,
   }) async {
     await storage.write(key: _accessTokenKey, value: accesstoken);
-    await storage.write(key: _refreshTokenKey, value: refreshtoken);
+    //  await storage.write(key: _refreshTokenKey, value: refreshtoken);
   }
+/*
+
+  Future<void> save_UserId({required String userid}) async {
+    await storage.write(key: _UserID, value: userid);
+    //  await storage.write(key: _refreshTokenKey, value: refreshtoken);
+  }
+*/
 
   //get token
 
@@ -30,6 +38,11 @@ class SecureStorageHelper {
     final data = await storage.read(key: _accessTokenKey);
     return data;
   }
+
+ /* Future<String?> get_UserId() async {
+    final data = await storage.read(key: _UserID);
+    return data;
+  }*/
 
   Future<String?> get_RefreshToken() async {
     final data = await storage.read(key: _refreshTokenKey);
