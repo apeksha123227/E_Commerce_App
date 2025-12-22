@@ -214,13 +214,7 @@ class ProductDetail extends StatelessWidget {
                                                     );
                                               } else {
                                                 product_Detail_Controller
-                                                    .addWishList(
-                                                      productId: item!.id
-                                                          .toString(),
-                                                      title: item!.title ?? "",
-                                                      price: item.price
-                                                          .toString(),
-                                                    );
+                                                    .addWishList();
                                               }
                                               /* product_Detail_Controller
                                             .isChecked

@@ -30,6 +30,11 @@ class Accountcontroller extends GetxController {
       if (accesstoken != null) {
         usermodel.value = await ApiService.getUserProfile(accesstoken);
         print("get User profile success");
+        //save userID
+        await SecureStorageHelper.instance.save_UserId(
+          userid: usermodel!.value!.id.toString(),
+        );
+        print("userId ${ usermodel!.value!.id.toString()}");
       }
     } catch (e) {
       print(e);

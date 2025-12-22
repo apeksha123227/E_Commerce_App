@@ -58,26 +58,45 @@ class Product_Detail_Controller extends GetxController {
 
   //add
 
-  Future<void> addWishList({
-    // required String userId,
+  /*Future<void> addWishList({
     required String productId,
     required String title,
     required String price,
-    // required String images,
+   // required String images,
     // required String catrgorie
   }) async {
     await service.addWishListCollection(
       Products(
         id: int.parse(productId),
-        /*   description: description,*/
+        */ /*   description: description,*/ /*
         price: int.parse(price),
         title: title,
 
-        // images: images,
+      //  images: images,
       ),
     );
     isChecked.value = true;
     await getwishlist();
+  }
+*/
+  Future<void> addWishList() async {
+    if (productsDetails.value == null) return;
+
+    final product = productsDetails.value!;
+      final selectedImage = product.images != null && product.images!.isNotEmpty
+        ? [product.images![selectedIndex.value]]
+        : <String>[];
+// String  selectedImage= product.images![selectedIndex.value];
+
+    await service.addWishListCollection(
+      Products(
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        images: selectedImage,
+        categoryName: product.category?.name,
+      ),
+    );
   }
 
   //get

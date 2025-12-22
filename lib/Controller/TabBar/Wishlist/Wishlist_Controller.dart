@@ -7,6 +7,7 @@ class Wishlist_Controller extends GetxController {
   RxList<Products> wishlist = <Products>[].obs;
   RxBool isLoading = false.obs;
 
+
   // final productController = Get.find<Product_Detail_Controller>();
   final FirebaseService service = FirebaseService();
 

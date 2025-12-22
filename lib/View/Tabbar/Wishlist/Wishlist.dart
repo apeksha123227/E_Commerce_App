@@ -37,11 +37,8 @@ class Wishlist extends StatelessWidget {
                         ),
                         child: InkWell(
                           onTap: () {
-                            print(" Id ${item.id.toString()}");
-                            Get.to(
-                              ProductDetail(),
-                              arguments: {"ID", item.id.toString()},
-                            );
+                            print("wish Id ${item.id.toString()}");
+                            Get.to(ProductDetail(), arguments: {"ID": item.id});
                           },
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,9 +46,15 @@ class Wishlist extends StatelessWidget {
                               SizedBox(
                                 height: 80,
                                 width: 80,
-                                child: Image.asset(
-                                  "assets/images/placholder.png",
+                                child: Image.network(
+                                  item.images![0],
                                   fit: BoxFit.fill,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      "assets/images/placholder.png",
+                                      fit: BoxFit.fill,
+                                   );
+                                 },
                                 ),
                               ),
                               SizedBox(width: 10),
@@ -70,12 +73,10 @@ class Wishlist extends StatelessWidget {
                                       ),
                                       SizedBox(height: 3),
                                       Text(
-                                        /* item!.category!.name ??*/
-                                        "",
-
+                                        item.categoryName ?? "",
                                         style: TextStyle(
                                           color: AppColors.tabUnselectedColor,
-                                          fontSize: 16,
+                                          fontSize: 14,
                                         ),
                                       ),
                                       SizedBox(height: 8),
@@ -86,6 +87,14 @@ class Wishlist extends StatelessWidget {
                                             fontweight: FontWeight.bold,
                                           ),
                                           Spacer(),
+
+                                          Text(
+                                            "Remove",
+                                            style: TextStyle(
+                                              color: AppColors.tabSelectedColor,
+                                            ),
+                                          ),
+                                          SizedBox(width: 10),
                                           InkWell(
                                             onTap: () {
                                               wishlist_Controller
@@ -95,7 +104,7 @@ class Wishlist extends StatelessWidget {
                                                   );
                                             },
                                             child: Icon(
-                                              Icons.delete,
+                                              Icons.cancel,
                                               color: AppColors.tabSelectedColor,
                                             ),
                                           ),

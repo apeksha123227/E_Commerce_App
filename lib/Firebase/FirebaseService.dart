@@ -9,74 +9,57 @@ class FirebaseService {
   CollectionReference get userCollectionRefrence =>
       firestore.collection('User');
 
-  CollectionReference get wishlistCollectionRefrence =>
-      firestore.collection('Wishlist');
+  static const String WishlistString = "Wishlist";
+
+  //get UserID
+  Future<String?> getuserId() async {
+    final userId = SecureStorageHelper.instance.get_UserId();
+    return userId;
+  }
 
   // add
 
   Future<void> addWishListCollection(Products products) async {
-    final userId = await getUserId();
+    final userId = await getuserId();
+    print(" adduserID ${userId}");
 
-    await firestore
-        .collection('user')
+    await userCollectionRefrence
         .doc(userId.toString())
-        .firestore
-        .collection('Wishlist')
+        .collection(WishlistString)
         .doc(products.id.toString())
         .set(products.toMap());
-
-    // await wishlistCollectionRefrence.add(products.toMap());
-  }
-
-  //get
-
-  Future<String> getUserId() async {
-    UserModel? user = await SecureStorageHelper.instance.getUserDetails();
-    if (user == null) {
-      throw Exception("User not logged in");
-    }
-    print("User Id ${user.id.toString()}");
-
-    return user.id.toString();
   }
 
   Future<List<Products>> getwishlist() async {
-    /*final data = await wishlistCollectionRefrence.get();
-    return data.docs.map((doc) => Products.fromDoc(doc)).toList();*/
-
-    final userid = await getUserId();
-    final data = await firestore
-        .collection('user')
+    final userid = await getuserId();
+    final data = await userCollectionRefrence
         .doc(userid)
-        .firestore
-        .collection('Wishlist')
+        .collection(WishlistString)
         .get();
+    print(data.toString());
     return data.docs.map((doc) => Products.fromDoc(doc)).toList();
   }
 
   // delete
 
   Future<void> deleteUser(String id) async {
-    final user = await SecureStorageHelper.instance.getUserDetails();
+    final user = await getuserId();
 
-    /*await firestore
-        .collection('user')
-        .doc(user!.id.toString())
-        .collection('Wishlist')
+    await userCollectionRefrence
+        .doc(user)
+        .collection(WishlistString)
         .doc(id)
-        .delete();*/
-    await wishlistCollectionRefrence.doc(id).delete();
+        .delete();
 
     getwishlist();
   }
 
   Future<bool> isProductInWishlist(String productId) async {
-    final user = await SecureStorageHelper.instance.getUserDetails();
+    final user = await getuserId();
 
-    final doc = await FirebaseFirestore.instance
-      /*  .collection('user')
-        .doc(user!.id.toString())*/
-        .collection('Wishlist')
+    final doc = await userCollectionRefrence
+        .doc(user)
+        .collection(WishlistString)
         .doc(productId)
         .get();
 

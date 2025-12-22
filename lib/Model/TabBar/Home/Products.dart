@@ -10,6 +10,9 @@ class Products {
   List<String>? images;
   String? creationAt;
   String? updatedAt;
+  String? categoryName;
+//  String? strImage;
+
 
   Products({
     this.id,
@@ -21,6 +24,8 @@ class Products {
     this.images,
     this.creationAt,
     this.updatedAt,
+    this.categoryName,
+    //this.strImage,
   });
 
   Products.fromJson(Map<String, dynamic> json) {
@@ -60,8 +65,9 @@ class Products {
       'price': price,
       /*'description': description,
       'category': category?.toJson(),*/
-      //'images': images ?? "",
-      'category': category?.toJson(),
+      'images': images,
+      //'images': strImage,
+      'category': categoryName,
     };
   }
 
@@ -72,10 +78,13 @@ class Products {
       title: data['title'],
       price: data['price'],
       description: data['description'],
-      category: data['category'] != null
+      categoryName: data['category'], /*!= null
           ? Category.fromJson(Map<String, dynamic>.from(data['category']))
-          : null,
-     // images: data['images'] /*!= null ? List<String>.from(data['images']) : []*/,
+          : null,*/
+     // strImage: data['images']/* != null ? List<String>.from(data['images']) : []*/,
+      images: data['images'] != null
+          ? List<String>.from(data['images'])
+          : [],
     );
   }
 }
