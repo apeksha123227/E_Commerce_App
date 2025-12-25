@@ -10,7 +10,7 @@ class NotificationController extends GetxService {
 
   Future<NotificationController> init() async {
     //  requestPermission();
-    initLocalNotification();
+ await   initLocalNotification();
     getFCMTOken();
     foregroundNotification();
     //backgroundNotification();
@@ -43,11 +43,11 @@ class NotificationController extends GetxService {
 
     await flutterLocalNotificationsPlugin.initialize(
       settings,
-      onDidReceiveBackgroundNotificationResponse: (details) {
+     /* onDidReceiveBackgroundNotificationResponse: (details) {
         if (details.payload != null) {
           // openScreen(details.payload!);
         }
-      },
+      },*/
     );
   }
 
@@ -64,7 +64,7 @@ class NotificationController extends GetxService {
   // foregroundNotification
 
   Future<void> foregroundNotification() async {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       {
         if (message.notification != null) {
           Get.snackbar(
@@ -74,16 +74,16 @@ class NotificationController extends GetxService {
         }
         const AndroidNotificationDetails androidDetails =
             AndroidNotificationDetails(
-              'high_importance_channel',
-              'High Importance Notifications',
-              importance: Importance.max,
+              'default_channel',
+              'General',
+              importance: Importance.high,
               priority: Priority.high,
             );
 
         NotificationDetails details = NotificationDetails(
           android: androidDetails,
         );
-        flutterLocalNotificationsPlugin.show(
+      await  flutterLocalNotificationsPlugin.show(
           0,
           message.notification?.title,
           message.notification?.body,
