@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
+import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
 import 'package:get/get.dart';
@@ -14,15 +15,16 @@ class HomeController extends GetxController {
     "assets/images/banner_3.png",
   ].obs;
 
- // RxString selectedId = "".obs;
+  // RxString selectedId = "".obs;
   RxList<Products> productsList = <Products>[].obs;
   RxList<Categories> categoryList = <Categories>[].obs;
   RxBool isLoading = false.obs;
   RxString selectedCategoriesId = "".obs;
-  RxString selectedCatName="".obs;
-
+  RxString selectedCatName = "".obs;
 
   final apiService = ApiService();
+  var quantity = <int, int>{}.obs;
+  final FirebaseService service = FirebaseService();
 
   @override
   void onInit() {
@@ -35,7 +37,9 @@ class HomeController extends GetxController {
       isLoading.value = true;
 
       final responses = await Future.wait([
-        apiService.getDataApiList("${ApiEndPoints.getProducts}?offset=0&limit=10"),
+        apiService.getDataApiList(
+          "${ApiEndPoints.getProducts}?offset=0&limit=10",
+        ),
         apiService.getDataApiList(ApiEndPoints.getCategories),
       ]);
 
@@ -53,5 +57,21 @@ class HomeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<bool> isInCart(String productId) async {
+    return await service.isProductInCart(productId);
+  }
+
+  Future<void> addWishList() async {
+    if (productsList.value == null) return;
+
+    final product = productsList.value!;
+
+    await service.addtoCart(
+      Products(
+        // id: product.id,
+      ),
+    );
   }
 }

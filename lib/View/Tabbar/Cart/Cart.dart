@@ -5,6 +5,8 @@ class History extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("History Screen", style: TextStyle(fontSize: 25)));
+    return Center(
+      child: Text("History Screen", style: TextStyle(fontSize: 25)),
+    );
   }
 }

@@ -10,6 +10,7 @@ class FirebaseService {
       firestore.collection('User');
 
   static const String WishlistString = "Wishlist";
+  static const String CartString = "Cart";
 
   //get UserID
   Future<String?> getuserId() async {
@@ -65,4 +66,30 @@ class FirebaseService {
 
     return doc.exists;
   }
+
+  //********************* CART ****************************
+
+  //add
+  Future<void> addtoCart(Products products) async {
+    final userId = await getuserId();
+    print(" adduserID ${userId}");
+
+    await userCollectionRefrence
+        .doc(userId.toString())
+        .collection(CartString)
+        .doc(products.id.toString())
+        .set(products.toMap());
+  }
+  Future<bool> isProductInCart(String productId) async {
+    final user = await getuserId();
+
+    final doc = await userCollectionRefrence
+        .doc(user)
+        .collection(CartString)
+        .doc(productId)
+        .get();
+
+    return doc.exists;
+  }
+
 }

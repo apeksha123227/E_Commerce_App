@@ -16,36 +16,33 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrren_width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final scrren_height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final scrren_width = MediaQuery.of(context).size.width;
+    final scrren_height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           //   physics: NeverScrollableScrollPhysics(),
           child: Container(
-           /*  height: scrren_height,
+            /*  height: scrren_height,
             width: scrren_width,*/
             child: /* home_Controller.isLoading.value?Center(child: CircularProgressIndicator()):*/
-            /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
+                /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
                 home_Controller.isLoading.value)...[*/
-            Obx(() {
-              if (home_Controller.isLoading.value/* &&
+                Obx(() {
+                  if (home_Controller
+                      .isLoading
+                      .value /* &&
                     home_Controller.categoryList.isEmpty*/ ) {
-                return Container(height: scrren_height,
-                    width: scrren_width,
-                    child: Center(child: CircularProgressIndicator()));
-              }
+                    return Container(
+                      height: scrren_height,
+                      width: scrren_width,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
                         child: Padding(
@@ -106,7 +103,7 @@ class Home extends StatelessWidget {
                               border: InputBorder.none,
                               hintStyle: TextStyle(
                                 color:
-                                AppColors.LightGreyText, // hint text color
+                                    AppColors.LightGreyText, // hint text color
                               ),
                             ),
                             style: TextStyle(
@@ -166,12 +163,12 @@ class Home extends StatelessWidget {
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                    home_Controller.categoryList.length > 5
+                                        home_Controller.categoryList.length > 5
                                         ? 6
                                         : home_Controller.categoryList.length,
                                     itemBuilder: (context, index) {
                                       if (home_Controller.categoryList.length >
-                                          5 &&
+                                              5 &&
                                           index == 5) {
                                         return Column(
                                           children: [
@@ -196,7 +193,7 @@ class Home extends StatelessWidget {
                                         );
                                       }
                                       final item =
-                                      home_Controller.categoryList[index];
+                                          home_Controller.categoryList[index];
 
                                       /* String imageUrl =
                                                   (item.image != null &&
@@ -210,7 +207,7 @@ class Home extends StatelessWidget {
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                         children: [
                                           InkWell(
                                             onTap: () {
@@ -240,19 +237,21 @@ class Home extends StatelessWidget {
                                               ),
                                               child: ClipRRect(
                                                 borderRadius:
-                                                BorderRadius.circular(15),
+                                                    BorderRadius.circular(15),
                                                 child: Image.network(
                                                   item.image ?? "",
                                                   fit: BoxFit.fill,
                                                   errorBuilder:
-                                                      (context,
-                                                      error,
-                                                      stackTrace,) {
-                                                    return Image.asset(
-                                                      "assets/images/placholder.png",
-                                                      fit: BoxFit.fill,
-                                                    );
-                                                  },
+                                                      (
+                                                        context,
+                                                        error,
+                                                        stackTrace,
+                                                      ) {
+                                                        return Image.asset(
+                                                          "assets/images/placholder.png",
+                                                          fit: BoxFit.fill,
+                                                        );
+                                                      },
                                                 ),
                                               ),
                                             ),
@@ -313,10 +312,8 @@ class Home extends StatelessWidget {
                       GridForProdcut(),
                       //SizedBox(height: 10),
                     ],
-
                   );
-                }
-            ),
+                }),
           ),
         ),
       ),
@@ -355,22 +352,30 @@ class Home extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // IMAGE
-                ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
-                  ),
-                  child: Image.network(
-                    item.images![0] ?? "",
-                    height: 120,
-                    width: double.infinity,
-                    fit: BoxFit.fill,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset(
-                        "assets/images/placholder.png",
-                        fit: BoxFit.fill,
-                      );
-                    },
+                InkWell(
+                  onTap: () {
+                    Get.to(
+                      ProductDetail(),
+                      arguments: {"ID": item.id.toString()},
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    child: Image.network(
+                      item.images![0] ?? "",
+                      height: 120,
+                      width: double.infinity,
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(
+                          "assets/images/placholder.png",
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ),
                   ),
                 ),
 
@@ -404,29 +409,34 @@ class Home extends StatelessWidget {
 
                       SizedBox(height: 4),
 
-                      SizedBox(
+                  /*    SizedBox(
                         width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.tabSelectedColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                        child: Obx(() {
+                          var productId = item.id;
+                          final isincart = home_Controller.isInCart(productId!.toString());
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.tabSelectedColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                          ),
-                          onPressed: () {
-                            /*home_Controller.selectedId.value = item.id
-                                .toString();*/
-                            Get.to(
-                              ProductDetail(),
-                              arguments: {"ID": item.id.toString()},
-                            );
-                          },
-                          child: Text(
-                            "Add to Cart",
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ),
-                      ),
+                            onPressed: () {
+                              //home_Controller.addtocart(productId);
+                              *//*if (isincart) {
+                                //home_Controller.addtocart(productId);
+                              }*//*
+                            },
+                            child: Text(
+                            *//*  isincart ? "Added" : *//*"Add to Cart",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),*/
                     ],
                   ),
                 ),

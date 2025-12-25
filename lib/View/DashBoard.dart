@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/DashboardController.dart';
 import 'package:e_commerce_app/View/Tabbar/Account/Account.dart';
-import 'package:e_commerce_app/View/Tabbar/History.dart';
+import 'package:e_commerce_app/View/Tabbar/Cart/Cart.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Home.dart';
 import 'package:e_commerce_app/View/Tabbar/Wishlist/Wishlist.dart';
 import 'package:flutter/material.dart';
