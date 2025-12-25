@@ -8,9 +8,8 @@ class NotificationController extends GetxService {
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<NotificationController> init() async{
-
-    requestPermission();
+  Future<NotificationController> init() async {
+    //  requestPermission();
     initLocalNotification();
     getFCMTOken();
     foregroundNotification();
@@ -18,13 +17,13 @@ class NotificationController extends GetxService {
     return this;
   }
 
-  Future<void> requestPermission() async {
+  /* Future<void> requestPermission() async {
     await firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-  }
+  }*/
 
   // Get FCM Token
   Future<String?> getFCMTOken() async {
@@ -35,23 +34,25 @@ class NotificationController extends GetxService {
 
   //Local notification init
   Future<void> initLocalNotification() async {
-    AndroidInitializationSettings android = AndroidInitializationSettings(
+    const AndroidInitializationSettings android = AndroidInitializationSettings(
       '@mipmap/ic_launcher',
     );
-    InitializationSettings settings = InitializationSettings(android: android);
+    const InitializationSettings settings = InitializationSettings(
+      android: android,
+    );
 
-    flutterLocalNotificationsPlugin.initialize(
+    await flutterLocalNotificationsPlugin.initialize(
       settings,
       onDidReceiveBackgroundNotificationResponse: (details) {
         if (details.payload != null) {
-         // openScreen(details.payload!);
+          // openScreen(details.payload!);
         }
       },
     );
   }
 
   // Navigation logic
- /*void openScreen(String type) {
+  /*void openScreen(String type) {
      if (type == "order") {
       Get.to(() => History());
     } else
@@ -60,19 +61,18 @@ class NotificationController extends GetxService {
     }
   }*/
 
-
   // foregroundNotification
 
   Future<void> foregroundNotification() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       {
-         if (message.notification != null) {
+        if (message.notification != null) {
           Get.snackbar(
             message.notification!.title ?? "",
             message.notification!.body ?? "",
           );
         }
- const AndroidNotificationDetails androidDetails =
+        const AndroidNotificationDetails androidDetails =
             AndroidNotificationDetails(
               'high_importance_channel',
               'High Importance Notifications',
@@ -90,7 +90,6 @@ class NotificationController extends GetxService {
           details,
           payload: message.data['type'],
         );
-
       }
     });
   }
@@ -98,7 +97,7 @@ class NotificationController extends GetxService {
   // Background
   Future<void> backgroundNotification() async {
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-     // openScreen(message.data['type']);
+      // openScreen(message.data['type']);
     });
   }
 }
