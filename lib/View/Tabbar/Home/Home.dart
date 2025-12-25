@@ -408,35 +408,37 @@ class Home extends StatelessWidget {
                       ),
 
                       SizedBox(height: 4),
-
-                  /*    SizedBox(
+                      SizedBox(
                         width: double.infinity,
-                        child: Obx(() {
-                          var productId = item.id;
-                          final isincart = home_Controller.isInCart(productId!.toString());
-                          return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.tabSelectedColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.tabSelectedColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            onPressed: () {
-                              //home_Controller.addtocart(productId);
-                              *//*if (isincart) {
-                                //home_Controller.addtocart(productId);
-                              }*//*
-                            },
-                            child: Text(
-                            *//*  isincart ? "Added" : *//*"Add to Cart",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                          );
-                        }),
-                      ),*/
+                          ),
+                          onPressed: () async {
+                            final productId = item.id;
+                            final inCart = home_Controller.isInCart(
+                              productId.toString(),
+                            );
+
+                            if (await inCart) {
+                              Get.snackbar(
+                                "Info",
+                                "Product already in cart",
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                            } else {
+                              home_Controller.addtoCart(item);
+                            }
+                          },
+                          child: Text(
+                            "Add to Cart",
+                            style: TextStyle(color: Colors.white, fontSize: 14),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

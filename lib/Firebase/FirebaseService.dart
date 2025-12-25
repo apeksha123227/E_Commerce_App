@@ -80,6 +80,7 @@ class FirebaseService {
         .doc(products.id.toString())
         .set(products.toMap());
   }
+
   Future<bool> isProductInCart(String productId) async {
     final user = await getuserId();
 
@@ -92,4 +93,46 @@ class FirebaseService {
     return doc.exists;
   }
 
+  //get cart
+  /*
+  Future<List<Products>> getcart() async {
+    final userid = await getuserId();
+    final data = await userCollectionRefrence
+        .doc(userid)
+        .collection(CartString)
+        .get();
+    print("Cart  ${data.toString()}");
+    return data.docs.map((doc) => Products.fromDoc(doc)).toList();
+  }
+*/
+
+  Future<List<Products>> getcart() async {
+    final userid = await getuserId();
+    final data = await userCollectionRefrence
+        .doc(userid)
+        .collection(CartString)
+        .get();
+
+    print("Cart items count: ${data.docs.length}");
+
+    for (var doc in data.docs) {
+      print("Cart doc => ${doc.data()}");
+    }
+
+    return data.docs.map((doc) => Products.fromDoc(doc)).toList();
+  }
+
+  // delete
+
+  Future<void> deleteCart(String id) async {
+    final user = await getuserId();
+
+    await userCollectionRefrence
+        .doc(user)
+        .collection(CartString)
+        .doc(id)
+        .delete();
+
+    getcart();
+  }
 }

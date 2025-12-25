@@ -21,9 +21,9 @@ class HomeController extends GetxController {
   RxBool isLoading = false.obs;
   RxString selectedCategoriesId = "".obs;
   RxString selectedCatName = "".obs;
-
+  RxInt selectedIndex = 0.obs;
   final apiService = ApiService();
-  var quantity = <int, int>{}.obs;
+
   final FirebaseService service = FirebaseService();
 
   @override
@@ -59,19 +59,24 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<bool> isInCart(String productId) async {
-    return await service.isProductInCart(productId);
+  Future<bool> isInCart(String productId) {
+    return service.isProductInCart(productId);
   }
 
-  Future<void> addWishList() async {
-    if (productsList.value == null) return;
-
-    final product = productsList.value!;
-
+  Future<void> addtoCart(Products product) async {
+    final selectedImage = product.images != null && product.images!.isNotEmpty
+        ? [product.images![selectedIndex.value]]
+        : <String>[];
     await service.addtoCart(
       Products(
-        // id: product.id,
+        id: product.id,
+        quantity: "1",
+        price: product.price,
+        images: selectedImage,
+        title: product.title,
+        categoryName: product.category?.name,
       ),
     );
+    // cartProductIds.add(product.id.toString());
   }
 }

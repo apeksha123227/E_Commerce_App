@@ -66,12 +66,12 @@ class NotificationController extends GetxService {
   Future<void> foregroundNotification() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       {
-        if (message.notification != null) {
+       /* if (message.notification != null) {
           Get.snackbar(
             message.notification!.title ?? "",
             message.notification!.body ?? "",
           );
-        }
+        }*/
         const AndroidNotificationDetails androidDetails =
             AndroidNotificationDetails(
               'default_channel',
