@@ -21,7 +21,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
  // await NotificationService.init();
   FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
-  Get.put(NotificationController());
+  await Get.putAsync(() => NotificationController().init());
 
   runApp(const MyApp());
 }

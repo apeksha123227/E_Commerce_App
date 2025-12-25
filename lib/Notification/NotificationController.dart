@@ -3,21 +3,19 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-class NotificationController extends GetxController {
+class NotificationController extends GetxService {
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
+  Future<NotificationController> init() async{
 
     requestPermission();
     initLocalNotification();
     getFCMTOken();
     foregroundNotification();
     //backgroundNotification();
+    return this;
   }
 
   Future<void> requestPermission() async {
@@ -29,9 +27,10 @@ class NotificationController extends GetxController {
   }
 
   // Get FCM Token
-  Future<void> getFCMTOken() async {
+  Future<String?> getFCMTOken() async {
     String? token = await firebaseMessaging.getToken();
     print(" get FCM Token => ${token}");
+    return token;
   }
 
   //Local notification init
