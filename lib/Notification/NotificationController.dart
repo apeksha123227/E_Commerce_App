@@ -9,7 +9,7 @@ class NotificationController extends GetxService {
       FlutterLocalNotificationsPlugin();
 
   Future<NotificationController> init() async {
-    //  requestPermission();
+      requestPermission();
  await   initLocalNotification();
     getFCMTOken();
     foregroundNotification();
@@ -17,13 +17,13 @@ class NotificationController extends GetxService {
     return this;
   }
 
-  /* Future<void> requestPermission() async {
+   Future<void> requestPermission() async {
     await firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
-  }*/
+  }
 
   // Get FCM Token
   Future<String?> getFCMTOken() async {

@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/DashboardController.dart';
 import 'package:e_commerce_app/View/Tabbar/Account/Account.dart';
-import 'package:e_commerce_app/View/Tabbar/Cart/Cart.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Home.dart';
 import 'package:e_commerce_app/View/Tabbar/Wishlist/Wishlist.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class DashBoard extends StatelessWidget {
     final screen_width = MediaQuery.of(context).size.width;
     final screen_height = MediaQuery.of(context).size.height;
 
-    final screens = [Home(), Wishlist(), History(), Account()];
+    final screens = [Home(), Wishlist(),/* History(),*/ Account()];
 
     return Obx(
       () => Scaffold(
@@ -48,7 +48,7 @@ class DashBoard extends StatelessWidget {
               ),
               label: "Wishlist",
             ),
-            BottomNavigationBarItem(
+           /* BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/History.svg',
                 color: dashboard_Controller.selectedIndex.value == 2
@@ -56,11 +56,11 @@ class DashBoard extends StatelessWidget {
                     : AppColors.tabUnselectedColor,
               ),
               label: "Cart",
-            ),
+            ),*/
             BottomNavigationBarItem(
               icon: SvgPicture.asset(
                 'assets/images/Profile.svg',
-                color: dashboard_Controller.selectedIndex.value == 3
+                color: dashboard_Controller.selectedIndex.value == 2
                     ? AppColors.tabSelectedColor
                     :AppColors.tabUnselectedColor,
               ),

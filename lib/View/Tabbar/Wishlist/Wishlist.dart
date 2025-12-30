@@ -46,15 +46,18 @@ class Wishlist extends StatelessWidget {
                               SizedBox(
                                 height: 80,
                                 width: 80,
-                                child: Image.network(
-                                  item.images![0],
-                                  fit: BoxFit.fill,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.asset(
-                                      "assets/images/placholder.png",
-                                      fit: BoxFit.fill,
-                                   );
-                                 },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    item.images![0],
+                                    fit: BoxFit.fill,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        "assets/images/placholder.png",
+                                        fit: BoxFit.fill,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 10),

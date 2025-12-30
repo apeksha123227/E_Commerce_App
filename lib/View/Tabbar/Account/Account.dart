@@ -1,12 +1,16 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
 import 'package:e_commerce_app/Controller/TabBar/Account/AccountController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Cart/CartController.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
 import 'package:e_commerce_app/View/WelCome.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
+
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
@@ -90,37 +94,35 @@ class Account extends StatelessWidget {
                                   vertical: 30,
                                 ),
                                 child: Column(
-                                    children: [
+                                  children: [
                                     Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                InkWell(
-                                onTap:(){
-                                Get.back();
-                              },
-                                child: Icon(
-                                Icons.cancel,
-                                color: AppColors.tabSelectedColor,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Get.back();
+                                          },
+                                          child: Icon(
+                                            Icons.cancel,
+                                            color: AppColors.tabSelectedColor,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Center(
+                                      child: Text(
+                                        "Update Details",
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500,
+                                          color: AppColors.tabUnselectedColor,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            ],
-                          ),
-                          Center(
-                          child: Text(
-                          "Update Details",
-                          style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.tabUnselectedColor,
-                          ),
-                          ),
-                          ),
-                          ],
-                          ),
-                          )
-                          ,
-                          )
-                          ,
                           );
                         },
                         child: Icon(Icons.mode_edit, color: Colors.white),
@@ -133,33 +135,44 @@ class Account extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 10),
+          SizedBox(height:30),
+          InkWell(
+            onTap: () async {
+              Get.to(Cartscreen());
+            },
+            child: accountRows('assets/images/cart.svg',"Your Cart"),
+          ),
           InkWell(
             onTap: () async {
               await SecureStorageHelper.instance.delete_all();
               Get.offAll(WelCome());
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 25),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.logout,
-                    color: AppColors.tabSelectedColor,
-                    size: 20,
-                  ),
-                  SizedBox(width: 15),
-                  Custom_Functions.getTextStyle_16_blackTxt(
-                    "logout",
-                    fontweight: FontWeight.w500,
-                  ),
-                ],
-              ),
-            ),
+            child: accountRows('assets/images/cart.svg',"logout"),
+
           ),
         ],
-
       );
     });
+  }
+
+  Padding accountRows(String img,String text) {
+    return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 8),
+            child: Row(
+              children: [
+                /* Icon(
+                  Icons.cart,
+                  color: AppColors.tabSelectedColor,
+                  size: 20,
+                ),*/
+                SvgPicture.asset(img),
+                SizedBox(width: 15),
+                Custom_Functions.getTextStyle_16_blackTxt(
+                  text,
+                  fontweight: FontWeight.w500,
+                ),
+              ],
+            ),
+          );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
 import 'package:e_commerce_app/Notification/NotificationController.dart';
-import 'package:e_commerce_app/Notification/NotificationService.dart';
+import 'package:e_commerce_app/Notification/NotificationController1.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:e_commerce_app/View/DashBoard.dart';
 import 'package:e_commerce_app/View/Splash.dart';
@@ -20,8 +20,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
  // await NotificationService.init();
-  FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
-  await Get.putAsync(() => NotificationController().init());
+  /*FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
+  await Get.putAsync(() => NotificationController().init());*/
+ Get.put(NotificationController1()).init();
 
   runApp(const MyApp());
 }
