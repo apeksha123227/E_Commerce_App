@@ -1,11 +1,10 @@
 import 'package:e_commerce_app/AppColors.dart';
-import 'package:e_commerce_app/Controller/TabBar/Cart/CartController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 
 class Cartscreen extends StatelessWidget {
   Cartscreen({super.key});
@@ -25,7 +24,7 @@ class Cartscreen extends StatelessWidget {
           children: [
             Divider(thickness: 0.4, color: Colors.grey.shade300),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25,vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
               child: Row(
                 children: [
                   Expanded(
@@ -59,24 +58,22 @@ class Cartscreen extends StatelessWidget {
                                 horizontal: 25,
                                 vertical: 10,
                               ),
-                              child: InkWell(
-                                onTap: () {
-                                  print("Cart Id ${item.id.toString()}");
-                                  Get.to(
-                                    ProductDetail(),
-                                    arguments: {"ID": item.id},
-                                  );
-                                },
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      print("Cart Id ${item.id.toString()}");
+                                      Get.to(
+                                        ProductDetail(),
+                                        arguments: {"ID": item.id},
+                                      );
+                                    },
+                                    child: SizedBox(
                                       height: 80,
                                       width: 80,
-                                      child: ClipRRect( borderRadius:
-                                      BorderRadius.circular(
-                                        10,
-                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
                                         child: Image.network(
                                           item.images![0],
                                           fit: BoxFit.fill,
@@ -90,71 +87,137 @@ class Cartscreen extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Custom_Functions.getTextStyle_16_blackTxt(
-                                              item!.title ?? "",
-                                              fontweight: FontWeight.w500,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Custom_Functions.getTextStyle_16_blackTxt(
+                                            item!.title ?? "",
+                                            fontweight: FontWeight.w500,
+                                          ),
+                                          SizedBox(height: 3),
+                                          Text(
+                                            item.categoryName ?? "",
+                                            style: TextStyle(
+                                              color:
+                                                  AppColors.tabUnselectedColor,
+                                              fontSize: 14,
                                             ),
-                                            SizedBox(height: 3),
-                                            Text(
-                                              item.categoryName ?? "",
-                                              style: TextStyle(
-                                                color: AppColors
-                                                    .tabUnselectedColor,
-                                                fontSize: 14,
+                                          ),
+                                          SizedBox(height: 8),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child:
+                                                    Custom_Functions.getTextStyle_16_blackTxt(
+                                                      item!.price.toString(),
+                                                      fontweight:
+                                                          FontWeight.bold,
+                                                    ),
                                               ),
-                                            ),
-                                            SizedBox(height: 8),
-                                            Row(
-                                              children: [
-                                                Custom_Functions.getTextStyle_16_blackTxt(
-                                                  item!.price.toString(),
-                                                  fontweight: FontWeight.bold,
-                                                ),
-                                                Spacer(),
-
-                                                Text(
-                                                  "Remove",
-                                                  style: TextStyle(
-                                                    color: AppColors
-                                                        .tabSelectedColor,
+                                              InkWell(
+                                                onTap: () {
+                                                  cart_Controller.decrement(
+                                                    item.id!,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(6),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                      width: 0.6, // lite stroke
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                InkWell(
-                                                  onTap: () {
-                                                    /* cart_Controller
-                                              .removefrowishlist(
-                                            item.id.toString(),
-                                            index,
-                                          );*/
-                                                  },
-                                                 /* child: Svg(
-                                                    Icons.cancel,
-                                                    color: AppColors
-                                                        .tabSelectedColor,
-                                                  ),*/
                                                   child: SvgPicture.asset(
-                                                  "assets/images/delete.svg",
+                                                    "assets/images/delete.svg",
+                                                    height: 17,
+                                                    width: 17,
+                                                    color: AppColors
+                                                        .tabUnselectedColor,
                                                   ),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              Custom_Functions.getTextStyle_16_blackTxt(
+                                                item.quantity.toString(),
+                                              ),
+                                              SizedBox(width: 10),
+                                              InkWell(
+                                                onTap: () {
+                                                  cart_Controller.increment(
+                                                    item.id!,
+                                                  );
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets.all(6),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                      width: 0.6, // lite stroke
+                                                    ),
+                                                  ),
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/delete.svg",
+                                                    height: 17,
+                                                    width: 17,
+                                                    color: AppColors
+                                                        .tabUnselectedColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 10),
+                                              //  if (item.quantity == 1)
+                                              InkWell(
+                                                onTap: () {
+                                                  cart_Controller
+                                                      .removeFromCart(
+                                                        item.id.toString(),
+                                                        index,
+                                                      );
+                                                  Get.snackbar(
+                                                    '',
+                                                    ' Successfully Deleted',
+                                                  );
+                                                },
+
+                                                child: Container(
+                                                  padding: EdgeInsets.all(6),
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color:
+                                                          Colors.grey.shade300,
+                                                      width: 0.6, // lite stroke
+                                                    ),
+                                                  ),
+                                                  child: SvgPicture.asset(
+                                                    "assets/images/delete.svg",
+                                                    height: 17,
+                                                    width: 17,
+                                                    color: AppColors
+                                                        .tabUnselectedColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             );
                           },

@@ -22,6 +22,8 @@ class Wishlist extends StatelessWidget {
         child: Obx(() {
           return wishlist_Controller.isLoading.value
               ? Center(child: CircularProgressIndicator())
+              : wishlist_Controller.wishlist.isEmpty
+              ? const Center(child: Text("Your wishList is empty"))
               : RefreshIndicator(
                   onRefresh: () async =>
                       await wishlist_Controller.loadWishlist(),

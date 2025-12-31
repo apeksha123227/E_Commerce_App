@@ -135,4 +135,28 @@ class FirebaseService {
 
     getcart();
   }
+
+  //add quantity
+  Future<void> increaseQuantity(String productId) async {
+    final user = await getuserId();
+    // int newQuantity = quantity + 1;
+
+    await userCollectionRefrence
+        .doc(user)
+        .collection(CartString)
+        .doc(productId)
+        .update({'quantity': FieldValue.increment(1)});
+  }
+
+  //decrese quantity
+  Future<void> decreseQuantity(String productId) async {
+    final user = await getuserId();
+    // int newQuantity = quantity + 1;
+
+    await userCollectionRefrence
+        .doc(user)
+        .collection(CartString)
+        .doc(productId)
+        .update({'quantity': FieldValue.increment(-1)});
+  }
 }

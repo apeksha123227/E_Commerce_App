@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
 import 'package:e_commerce_app/Controller/TabBar/Account/AccountController.dart';
-import 'package:e_commerce_app/Controller/TabBar/Cart/CartController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
@@ -142,12 +142,14 @@ class Account extends StatelessWidget {
             },
             child: accountRows('assets/images/cart.svg',"Your Cart"),
           ),
+          Divider(thickness: 0.4, color: Colors.grey.shade300),
+
           InkWell(
             onTap: () async {
               await SecureStorageHelper.instance.delete_all();
               Get.offAll(WelCome());
             },
-            child: accountRows('assets/images/cart.svg',"logout"),
+            child: accountRows('assets/images/logout.svg',"logout"),
 
           ),
         ],

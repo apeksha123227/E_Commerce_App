@@ -70,7 +70,7 @@ class HomeController extends GetxController {
     await service.addtoCart(
       Products(
         id: product.id,
-        quantity: "1",
+        quantity: 1,
         price: product.price,
         images: selectedImage,
         title: product.title,

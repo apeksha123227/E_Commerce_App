@@ -13,7 +13,7 @@ class Products {
   String? categoryName;
 
   //  String? strImage;
-  String? quantity;
+  int? quantity;
 
   Products({
     this.id,
@@ -81,7 +81,10 @@ class Products {
       title: data['title'],
       price: data['price'],
       description: data['description'],
-      quantity: data['quantity'],
+     // quantity: data['quantity'],
+      quantity: data['quantity'] is int
+          ? data['quantity']
+          : int.tryParse(data['quantity'].toString()) ?? 0,
       categoryName: data['category'],
       /*!= null
           ? Category.fromJson(Map<String, dynamic>.from(data['category']))
