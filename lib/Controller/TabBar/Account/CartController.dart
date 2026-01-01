@@ -85,6 +85,7 @@ class CartController extends GetxController {
     }
   }*/
 
+
   bool isInCart(int productId) {
     return cartProductIds.contains(productId);
   }

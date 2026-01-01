@@ -251,19 +251,22 @@ class ProductDetail extends StatelessWidget {
                                                 ? NetworkImage(categoryImage)
                                                 : null,
                                           ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              horizontal: 20,
-                                            ),
-                                            child: Text(
-                                              "${item!.category!.name ?? ""}",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 19,
+                                          Expanded(
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                horizontal: 20,
+                                              ),
+                                              child: Text(
+                                                "${item!.category!.name ?? ""}",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 19,
+                                                ),
                                               ),
                                             ),
                                           ),
-                                          Spacer(),
+                                        //  Spacer(),
                                           ElevatedButton(
                                             onPressed: () {},
                                             style: ElevatedButton.styleFrom(
