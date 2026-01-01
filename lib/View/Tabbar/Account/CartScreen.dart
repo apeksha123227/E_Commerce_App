@@ -225,69 +225,131 @@ class Cartscreen extends StatelessWidget {
                       );
               }),
             ),
-            Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 20,
-                  vertical: 10,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.tabSelectedColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(
-                              color: AppColors.LightGreyText,
-                              width: 0.5,
+
+            Card(
+              elevation: 3,
+              child: Container(
+                color: Colors.white,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 15,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Custom_Functions.getTextStyle_16_blackTxt(
+                        "Order Summary ",
+                        fontweight: FontWeight.bold,
+                      ),
+                      SizedBox(height: 6),
+                      Row(
+                        children: [
+                          Obx(() {
+                            return Expanded(
+                              child: Text(
+                                "Total items : (${cart_Controller.cartlist.length})",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: AppColors.tabUnselectedColor,
+                                ),
+                              ),
+                            );
+                          }),
+                          Obx(() {
+                            return Text(
+                              "₹${cart_Controller.calculateTotal()}",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.tabUnselectedColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "Total Price ",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.tabUnselectedColor,
+                              ),
+                            ),
+                          ),
+                          Obx(() {
+                            return Text(
+                              "₹${cart_Controller.calculateTotal()}",
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: AppColors.tabUnselectedColor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
+                      /*    SizedBox(height: 10),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                           // backgroundColor: AppColors.tabSelectedColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: AppColors.LightGreyText,
+                                width: 0.5,
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              "Select the Delivery Option ",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Add to Cart",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                      ),*/
+                      SizedBox(height: 5),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.tabSelectedColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              side: BorderSide(
+                                color: AppColors.LightGreyText,
+                                width: 0.5,
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            child: Text(
+                              "Select Payment Method",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.buyNowCOlor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(
-                              color: AppColors.LightGreyText,
-                              width: 0.5,
-                            ),
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            "Buy Now",
-                            style: TextStyle(
-                              color: AppColors.blackText,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

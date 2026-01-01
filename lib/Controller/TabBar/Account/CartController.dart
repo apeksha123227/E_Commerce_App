@@ -20,6 +20,7 @@ class CartController extends GetxController {
   Future<void> loadCartList() async {
     isLoading.value = true;
     cartlist.value = await service.getcart();
+    calculateTotal();
     isLoading.value = false;
   }
 
@@ -28,8 +29,15 @@ class CartController extends GetxController {
     cartlist.removeAt(index);
   }
 
-  void addtocart(int productId) {
+  /*  void addtocart(int productId) {
     quantity[productId] = 1;
+  }*/
+  double calculateTotal(/*List<Products> cartItems*/) {
+    double total = 0;
+    for (var item in cartlist) {
+      total += item.price! * item.quantity!;
+    }
+    return total;
   }
 
   /* void increment(int productId) {
@@ -85,12 +93,14 @@ class CartController extends GetxController {
     }
   }*/
 
+  /*
 
   bool isInCart(int productId) {
     return cartProductIds.contains(productId);
   }
+*/
 
-/*  int Quantity(int productId) {
+  /*  int Quantity(int productId) {
     return quantity[productId] ?? 0;
   }*/
 
