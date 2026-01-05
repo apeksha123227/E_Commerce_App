@@ -48,10 +48,10 @@ class LoginScreen_Controller extends GetxController {
         final refreshtoken = data['refresh_token'];
         await SecureStorageHelper.instance.save_Token(
           accesstoken: accesstoken,
-      //    refreshtoken: refreshtoken,
+          //    refreshtoken: refreshtoken,
         );
         print("LOGIN CONTROLLER ACCESS TOKEN: ${accesstoken}");
-      //  print("LOGIN CONTROLLER REFRESH TOKEN: ${refreshtoken}");
+        //  print("LOGIN CONTROLLER REFRESH TOKEN: ${refreshtoken}");
 
         //save User
         final userModel = UserModel.fromJson(data);
@@ -69,5 +69,12 @@ class LoginScreen_Controller extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
   }
 }

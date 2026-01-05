@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Notification/NotificationController.dart';
 import 'package:e_commerce_app/Notification/NotificationController1.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
@@ -9,6 +10,7 @@ import 'package:e_commerce_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 
 @pragma('vm:entry-point')
@@ -19,11 +21,12 @@ Future<void> firebaseBackgroundHandler(RemoteMessage message) async {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
- // await NotificationService.init();
-  /*FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
-  await Get.putAsync(() => NotificationController().init());*/
- Get.put(NotificationController1()).init();
 
+ Get.put(NotificationController1()).init();
+  Stripe.publishableKey = "pk_test_xxxxxxxxxxxxxxxxx";
+  await Stripe.instance.applySettings();
+
+  Get.put(CartController());
   runApp(const MyApp());
 }
 

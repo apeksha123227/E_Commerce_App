@@ -2,6 +2,7 @@ import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/Product_Detail_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Storage/AppStorage.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -253,9 +254,10 @@ class ProductDetail extends StatelessWidget {
                                           ),
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                horizontal: 20,
-                                              ),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 20,
+                                                  ),
                                               child: Text(
                                                 "${item!.category!.name ?? ""}",
                                                 overflow: TextOverflow.ellipsis,
@@ -266,7 +268,7 @@ class ProductDetail extends StatelessWidget {
                                               ),
                                             ),
                                           ),
-                                        //  Spacer(),
+                                          //  Spacer(),
                                           ElevatedButton(
                                             onPressed: () {},
                                             style: ElevatedButton.styleFrom(
@@ -329,7 +331,31 @@ class ProductDetail extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          final item =
+                              product_Detail_Controller.productsDetails.value;
+                          final productId = item!.id;
+                          final inCart = Custom_Functions().isInCart(
+                            productId.toString(),
+                          );
+                          if (await inCart) {
+                            Get.snackbar(
+                              "Already in Cart",
+                              "This product is already added",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                          } else {
+                            Get.snackbar(
+                              "Item Added",
+                              "SuccessFully Added in your cart",
+                              snackPosition: SnackPosition.BOTTOM,
+                            );
+                            Custom_Functions().addtoCart(
+                              item,
+                              product_Detail_Controller.selectedIndex.value,
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.tabSelectedColor,
                           shape: RoundedRectangleBorder(
@@ -353,10 +379,24 @@ class ProductDetail extends StatelessWidget {
                         ),
                       ),
                     ),
+
                     SizedBox(width: 10),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          final item =
+                              product_Detail_Controller.productsDetails.value;
+                          Get.snackbar(
+                            "Item Added",
+                            "SuccessFully Added in your cart",
+                            snackPosition: SnackPosition.BOTTOM,
+                          );
+                          Custom_Functions().addtoCart(
+                            item!,
+                            product_Detail_Controller.selectedIndex.value,
+                          );
+                          Get.offAll(Cartscreen());
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.buyNowCOlor,
                           shape: RoundedRectangleBorder(

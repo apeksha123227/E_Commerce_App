@@ -40,7 +40,35 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: SvgPicture.asset("assets/images/cart.svg"),
+            child: /*SvgPicture.asset("assets/images/cart.svg"),*/
+            Stack(
+              children: [
+
+                SvgPicture.asset("assets/images/cart.svg"),
+                if (categoryController.homeController.cartController.cartlist.length > 0)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(2.5),
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                      child: Obx(() {
+                        return Text(
+                          '${categoryController.homeController.cartController.cartlist.length}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9.5,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
@@ -61,8 +89,8 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                   child: SizedBox(
                     child: GridView.builder(
                       shrinkWrap: true,
-                    //  physics: NeverScrollableScrollPhysics(),
 
+                      //  physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
@@ -83,22 +111,31 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // IMAGE
-                            ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
-                              child: Image.network(
-                                item.images![0] ?? "",
-                                height: 120,
-                                width: double.infinity,
-                                fit: BoxFit.fill,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    "assets/images/placholder.png",
-                                    fit: BoxFit.fill,
-                                  );
-                                },
+                            InkWell(
+                              onTap: () {
+                                print("id ${item.id}");
+                                Get.to(
+                                  ProductDetail(),
+                                  arguments: {"ID": item.id.toString()},
+                                );
+                              },
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  topRight: Radius.circular(12),
+                                ),
+                                child: Image.network(
+                                  item.images![0] ?? "",
+                                  height: 120,
+                                  width: double.infinity,
+                                  fit: BoxFit.fill,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      "assets/images/placholder.png",
+                                      fit: BoxFit.fill,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
 
@@ -141,12 +178,33 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      onPressed: () {
-                                        print("id ${item.id}");
-                                        Get.to(
-                                          ProductDetail(),
-                                          arguments: {"ID": item.id.toString()},
-                                        );
+                                      onPressed: () async {
+                                        final item = categoryController
+                                            .productList[index];
+                                        final productId = item.id;
+                                        final inCart = Custom_Functions()
+                                            .isInCart(productId.toString());
+                                        if (await inCart) {
+                                          Get.snackbar(
+                                            "Already in Cart",
+                                            "This product is already added",
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                        } else {
+                                          Get.snackbar(
+                                            "Item Added",
+                                            "SuccessFully Added in your cart",
+                                            snackPosition: SnackPosition.BOTTOM,
+                                          );
+                                          Custom_Functions().addtoCart(
+                                            item,
+                                            int.parse(
+                                              categoryController
+                                                  .getSelectedCategorieId
+                                                  .value,
+                                            ),
+                                          );
+                                        }
                                       },
                                       child: Text(
                                         "Add to Cart",

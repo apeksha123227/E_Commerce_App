@@ -116,4 +116,26 @@ class Product_Detail_Controller extends GetxController {
     await service.deleteUser(id);
     isChecked.value = false;
   }
+
+ /* Future<bool> isInCart(String productId) {
+    return service.isProductInCart(productId);
+  }
+
+  Future<void> addtoCart(Products product) async {
+    final selectedImage = product.images != null && product.images!.isNotEmpty
+        ? [product.images![selectedIndex.value]]
+        : <String>[];
+    await service.addtoCart(
+      Products(
+        id: product.id,
+        quantity: 1,
+        price: product.price,
+        images: selectedImage,
+        title: product.title,
+        categoryName: product.category?.name,
+      ),
+    );
+    // cartProductIds.add(product.id.toString());
+  }
+*/
 }

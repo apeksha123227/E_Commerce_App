@@ -149,7 +149,7 @@ class FirebaseService {
   }
 
   //decrese quantity
-  Future<void> decreseQuantity(String productId) async {
+ /* Future<void> decreseQuantity(String productId) async {
     final user = await getuserId();
     // int newQuantity = quantity + 1;
 
@@ -158,5 +158,30 @@ class FirebaseService {
         .collection(CartString)
         .doc(productId)
         .update({'quantity': FieldValue.increment(-1)});
+  }*/
+
+  Future<void> decreseQuantity(String productId) async {
+    final user = await getuserId();
+
+    final docRef = userCollectionRefrence
+        .doc(user)
+        .collection(CartString)
+        .doc(productId);
+
+    final snapshot = await docRef.get();
+
+    if (snapshot.exists) {
+      final currentQuantity = snapshot['quantity'] ?? 1;
+
+      if (currentQuantity > 1) {
+        // Decrease quantity by 1
+        await docRef.update({'quantity': FieldValue.increment(-1)});
+      } else {
+        // Optional: Remove item from cart if quantity reaches 0
+        await docRef.delete();
+      }
+    }
   }
+
+
 }

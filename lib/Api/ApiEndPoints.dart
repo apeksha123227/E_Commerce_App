@@ -12,5 +12,6 @@ class ApiEndPoints {
   static const String getRefreshToken = "auth/refresh-token";
   static const String getProfile = "auth/profile";
   static const String updateUserProfile = "users";
+  static const String registration = "users";
 
 }

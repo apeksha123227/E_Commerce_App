@@ -14,6 +14,7 @@ class Home extends StatelessWidget {
 
   final home_Controller = Get.put(HomeController());
 
+
   @override
   Widget build(BuildContext context) {
     final scrren_width = MediaQuery.of(context).size.width;
@@ -24,8 +25,7 @@ class Home extends StatelessWidget {
         child: SingleChildScrollView(
           //   physics: NeverScrollableScrollPhysics(),
           child: Container(
-            /*  height: scrren_height,
-            width: scrren_width,*/
+
             child: /* home_Controller.isLoading.value?Center(child: CircularProgressIndicator()):*/
                 /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
                 home_Controller.isLoading.value)...[*/
@@ -69,10 +69,38 @@ class Home extends StatelessWidget {
                                 ],
                               ),
                               Spacer(),
-                              SvgPicture.asset(
+                             /* SvgPicture.asset(
                                 'assets/images/cart.svg',
                                 width: 20,
                                 height: 20,
+                              ),*/
+                              Stack(
+                                children: [
+
+                                  SvgPicture.asset("assets/images/cart.svg"),
+                                  if (home_Controller.cartController.cartlist.length > 0)
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2.5),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Obx(() {
+                                          return Text(
+                                            '${home_Controller.cartController.cartlist.length}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.5,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                ],
                               ),
                               SizedBox(width: 15),
                               SvgPicture.asset(
@@ -408,6 +436,7 @@ class Home extends StatelessWidget {
                       ),
 
                       SizedBox(height: 4),
+
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
@@ -417,23 +446,32 @@ class Home extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
+
                           onPressed: () async {
                             final productId = item.id;
-                            final inCart = home_Controller.isInCart(
+                            final inCart = Custom_Functions().isInCart(
                               productId.toString(),
                             );
-
                             if (await inCart) {
                               Get.snackbar(
-                                "Info",
-                                "Product already in cart",
+                                "Already in Cart",
+                                "This product is already added",
                                 snackPosition: SnackPosition.BOTTOM,
                               );
                             } else {
-                              home_Controller.addtoCart(item);
+                              Get.snackbar(
+                                "Item Added",
+                                "SuccessFully Added in your cart",
+                                snackPosition: SnackPosition.BOTTOM,
+                              );
+                              Custom_Functions().addtoCart(
+                                item,
+                                home_Controller.selectedIndex.value,
+                              );
                             }
                           },
                           child: Text(
+                            /* inCart?"Added":*/
                             "Add to Cart",
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),

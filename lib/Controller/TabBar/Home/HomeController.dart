@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
@@ -23,8 +24,10 @@ class HomeController extends GetxController {
   RxString selectedCatName = "".obs;
   RxInt selectedIndex = 0.obs;
   final apiService = ApiService();
+  final cartController = Get.find<CartController>();
 
-  final FirebaseService service = FirebaseService();
+  //  final FirebaseService service = FirebaseService();
+  var address = ''.obs;
 
   @override
   void onInit() {
@@ -58,25 +61,37 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
+/*
+  Future<void> getCurrentAddress() async {
+    try {
+      // Check location permission
+      LocationPermission permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        permission = await Geolocator.requestPermission();
+        if (permission == LocationPermission.denied) return;
+      }
 
-  Future<bool> isInCart(String productId) {
-    return service.isProductInCart(productId);
-  }
+      if (permission == LocationPermission.deniedForever) return;
 
-  Future<void> addtoCart(Products product) async {
-    final selectedImage = product.images != null && product.images!.isNotEmpty
-        ? [product.images![selectedIndex.value]]
-        : <String>[];
-    await service.addtoCart(
-      Products(
-        id: product.id,
-        quantity: 1,
-        price: product.price,
-        images: selectedImage,
-        title: product.title,
-        categoryName: product.category?.name,
-      ),
-    );
-    // cartProductIds.add(product.id.toString());
-  }
+      // Get current position
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+
+      // Convert to address
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        address.value =
+            '${place.street}, ${place.locality}, ${place.subAdministrativeArea}, ${place.postalCode}, ${place.country}';
+      }
+    } catch (e) {
+      address.value = "Could not get location";
+      print(e);
+    }
+  }*/
 }

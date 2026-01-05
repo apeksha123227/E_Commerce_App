@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
@@ -9,6 +10,10 @@ class CartController extends GetxController {
   var quantity = <int, int>{}.obs;
   final FirebaseService service = FirebaseService();
   RxSet<String> cartProductIds = <String>{}.obs;
+  double platformchrage = 20;
+  RxString appliedCoupon = "".obs;
+  RxDouble discountAmount = 0.0.obs;
+  final couponController = TextEditingController();
 
   @override
   Future<void> onInit() async {
@@ -29,9 +34,6 @@ class CartController extends GetxController {
     cartlist.removeAt(index);
   }
 
-  /*  void addtocart(int productId) {
-    quantity[productId] = 1;
-  }*/
   double calculateTotal(/*List<Products> cartItems*/) {
     double total = 0;
     for (var item in cartlist) {
@@ -40,30 +42,12 @@ class CartController extends GetxController {
     return total;
   }
 
-  /* void increment(int productId) {
-    quantity[productId] = (quantity[productId] ?? 0) + 1;
-  }
-
-
-  void decrement(int productId) {
-    if (quantity[productId]! > 1) {
-      quantity[productId] = quantity[productId]! - 1;
-    } else {
-      quantity.remove(productId);
-    }
-  }
-*/
 
   Future<void> increment(int productId) async {
     //    isLoading.value = true;
     try {
       await service.increaseQuantity(productId.toString());
-      /*int index = cartlist.indexWhere((e) => e.id == productId);
-      if (index != -1) {
-       //  cartlist[index].quantity = (cartlist[index].quantity ?? 0) + 1;
-        quantity[productId] = (quantity[productId] ?? 0) + 1;
-        cartlist.refresh();
-      }*/
+
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
@@ -74,40 +58,44 @@ class CartController extends GetxController {
     //    isLoading.value = true;
     try {
       await service.decreseQuantity(productId.toString());
-      /*if (quantity[productId]! > 1) {
-        quantity[productId] = quantity[productId]! - 1;
-      } else {
-        quantity.remove(productId);
-      }*/
+
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
     //  isLoading.value = false;
   }
 
-  /* void decrement(int productId) {
-    if (quantity[productId]! > 1) {
-      quantity[productId] = quantity[productId]! - 1;
-    } else {
-      quantity.remove(productId);
+  void applyCoupon(String code) {
+    if (code.isEmpty) return;
+    double total = calculateTotal();
+
+    appliedCoupon.value = code;
+    couponController.text = code;
+    if (code == "SAVE10" && total >= 500) {
+      discountAmount.value = total * 0.10;
     }
-  }*/
+    else if (code == "FLAT50") {
+      discountAmount.value = 50;
+    }
+    else {
+      discountAmount.value = 0;
+      Get.snackbar("Invalid Coupon", "This coupon is not valid");
+      return;
+    }
 
-  /*
-
-  bool isInCart(int productId) {
-    return cartProductIds.contains(productId);
+    Get.snackbar(
+      "Coupon Applied",
+      "You saved ₹${discountAmount.value.toStringAsFixed(0)}",
+    );
   }
-*/
 
-  /*  int Quantity(int productId) {
-    return quantity[productId] ?? 0;
-  }*/
-
-  /*
-  Future<void> getCartProducts() async {
-    final ids = await service.getcart();
-    cartProductIds.addAll(ids as Iterable<String>);
+  double finalAmount() {
+    return calculateTotal() + platformchrage - discountAmount.value;
   }
-*/
+
+  void removeCoupon() {
+    appliedCoupon.value = '';
+    discountAmount.value = 0.0;
+    couponController.clear();
+  }
 }
