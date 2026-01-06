@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Api/ApiService.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
@@ -9,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class ViewAllProducts_By_Categorie_Controller extends GetxController {
-  final homeController = Get.find<HomeController>();
+  final cartController = Get.find<CartController>();
   RxString getSelectedCategorieId = "".obs;
   RxBool isLoading = true.obs;
   final apiService = ApiService();

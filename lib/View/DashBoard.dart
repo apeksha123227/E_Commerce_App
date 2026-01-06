@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/DashboardController.dart';
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/View/Tabbar/Account/Account.dart';
 import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Home.dart';
@@ -11,6 +12,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DashBoard extends StatelessWidget {
   DashBoard({super.key});
   final dashboard_Controller = Get.put(DashBoardController(),permanent: true);
+  final home_Controller = Get.put(HomeController());
+
 
   @override
   Widget build(BuildContext context) {

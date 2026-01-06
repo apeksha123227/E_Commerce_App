@@ -2,6 +2,7 @@ import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/ViewAllProducts_By_Categorie_Controller.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -40,24 +41,28 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: /*SvgPicture.asset("assets/images/cart.svg"),*/
-            Stack(
+            child: /*SvgPicture.asset("assets/images/cart.svg"),*/ Stack(
               children: [
-
-                SvgPicture.asset("assets/images/cart.svg"),
-                if (categoryController.homeController.cartController.cartlist.length > 0)
+                InkWell(
+                  onTap: () {
+                    Get.to(Cartscreen());
+                  },
+                  child: SvgPicture.asset("assets/images/cart.svg"),
+                ),
+                if (categoryController.cartController.cartlist.length > 0)
                   Positioned(
                     right: 0,
                     top: 0,
                     child: Container(
-                      padding: const EdgeInsets.all(2.5),
+                      padding: const EdgeInsets.all(4),
                       decoration: const BoxDecoration(
                         color: Colors.red,
                         shape: BoxShape.circle,
                       ),
                       child: Obx(() {
                         return Text(
-                          '${categoryController.homeController.cartController.cartlist.length}',
+                          '${categoryController.cartController.cartlist.length}',
+
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 9.5,

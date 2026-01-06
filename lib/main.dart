@@ -1,14 +1,6 @@
-import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
-import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
-import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
-import 'package:e_commerce_app/LoginScreen.dart';
-import 'package:e_commerce_app/Notification/NotificationController.dart';
+
 import 'package:e_commerce_app/Notification/NotificationController1.dart';
-import 'package:e_commerce_app/Storage/AppStorage.dart';
-import 'package:e_commerce_app/View/DashBoard.dart';
-import 'package:e_commerce_app/View/Registration.dart';
 import 'package:e_commerce_app/View/Splash.dart';
-import 'package:e_commerce_app/View/WelCome.dart';
 import 'package:e_commerce_app/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,8 +22,8 @@ void main() async {
   await Stripe.instance.applySettings();
 
 
-  //Get.put(HomeController(), permanent: true);
-  Get.put(CartController()/*, permanent: true*/);
+//  Get.put(HomeController(), permanent: true);
+ // Get.put(CartController()/*, permanent: true*/);
 
   runApp(const MyApp());
 }

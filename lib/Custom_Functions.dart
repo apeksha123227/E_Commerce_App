@@ -3,6 +3,7 @@ import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,7 +14,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class Custom_Functions {
   final FirebaseService service = FirebaseService();
-  static final cartController =Get.find<CartController>();
+  static final cartController = Get.find<CartController>();
 
   static Widget getTextStyle_16_blackTxt(
     String text, {
@@ -52,13 +53,17 @@ class Custom_Functions {
           padding: const EdgeInsets.only(right: 25),
           child: Stack(
             children: [
-              SvgPicture.asset("assets/images/cart.svg"),
+              InkWell(
+                onTap:(){
+                  Get.to(Cartscreen());
+                },
+                  child: SvgPicture.asset("assets/images/cart.svg")),
               if (cartController.cartlist.length > 0)
                 Positioned(
                   right: 0,
                   top: 0,
                   child: Container(
-                    padding: const EdgeInsets.all(2.5),
+                    padding: const EdgeInsets.all(4),
                     decoration: const BoxDecoration(
                       color: Colors.red,
                       shape: BoxShape.circle,
@@ -82,8 +87,8 @@ class Custom_Functions {
     );
   }
 
- Future<bool> isInCart(String productId) async {
-    bool value=await service.isProductInCart(productId);
+  Future<bool> isInCart(String productId) async {
+    bool value = await service.isProductInCart(productId);
     return value;
   }
 

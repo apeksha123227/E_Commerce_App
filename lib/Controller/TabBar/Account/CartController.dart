@@ -15,8 +15,7 @@ class CartController extends GetxController {
   RxString appliedCoupon = "".obs;
   RxDouble discountAmount = 0.0.obs;
   final couponController = TextEditingController();
- // final homeController = Get.find<HomeController>();
-
+  final homeController = Get.find<HomeController>();
 
   @override
   Future<void> onInit() async {
@@ -35,6 +34,7 @@ class CartController extends GetxController {
   Future<void> removeFromCart(String id, int index) async {
     await service.deleteCart(id);
     cartlist.removeAt(index);
+    //cartlist.refresh();
   }
 
   double calculateTotal(/*List<Products> cartItems*/) {
@@ -45,12 +45,13 @@ class CartController extends GetxController {
     return total;
   }
 
-
   Future<void> increment(int productId) async {
     //    isLoading.value = true;
+    final index = cartlist.indexWhere((item) => item.id == productId);
+    cartlist[index].quantity = (cartlist[index].quantity ?? 1) + 1;
+    cartlist[index] = cartlist[index];
     try {
       await service.increaseQuantity(productId.toString());
-
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
@@ -58,15 +59,33 @@ class CartController extends GetxController {
   }
 
   Future<void> decrement(int productId) async {
-    //    isLoading.value = true;
+    final index = cartlist.indexWhere((item) => item.id == productId);
+    if (index == -1) return;
+
+    int currentQty = cartlist[index].quantity ?? 1;
+
+    if (currentQty <= 1) {
+      cartlist.removeAt(index);
+      cartlist.refresh();
+
+      try {
+        await service.decreseQuantity(productId.toString());
+      } catch (e) {
+        Get.snackbar("Error", e.toString());
+      }
+      return;
+    }
+
+    cartlist[index].quantity = currentQty - 1;
+    cartlist.refresh();
+
     try {
       await service.decreseQuantity(productId.toString());
-
     } catch (e) {
       Get.snackbar("Error", e.toString());
     }
-    //  isLoading.value = false;
   }
+
 
   void applyCoupon(String code) {
     if (code.isEmpty) return;
@@ -76,11 +95,9 @@ class CartController extends GetxController {
     couponController.text = code;
     if (code == "SAVE10" && total >= 500) {
       discountAmount.value = total * 0.10;
-    }
-    else if (code == "FLAT50") {
+    } else if (code == "FLAT50") {
       discountAmount.value = 50;
-    }
-    else {
+    } else {
       discountAmount.value = 0;
       Get.snackbar("Invalid Coupon", "This coupon is not valid");
       return;

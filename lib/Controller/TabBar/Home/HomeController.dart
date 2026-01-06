@@ -28,12 +28,13 @@ class HomeController extends GetxController {
   RxString selectedCatName = "".obs;
   RxInt selectedIndex = 0.obs;
   final apiService = ApiService();
-  final CartController cartController = Get.find<CartController>();
+//  final CartController cartController = Get.put(CartController());
   final searchController = TextEditingController();
   RxList<Products> filteredProducts = <Products>[].obs;
   RxList<Categories> filteredCategories = <Categories>[].obs;
   var address = ''.obs;
   RxBool showClearIcon = false.obs;
+
 
   @override
   void onInit() {

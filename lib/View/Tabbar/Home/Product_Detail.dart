@@ -200,34 +200,30 @@ class ProductDetail extends StatelessWidget {
                                         ),
 
                                         Obx(() {
+                                          final fav=product_Detail_Controller
+                                              .isChecked
+                                              .value;
                                           return InkWell(
                                             onTap: () {
                                               final item =
                                                   product_Detail_Controller
                                                       .productsDetails
                                                       .value;
-                                              if (product_Detail_Controller
-                                                  .isChecked
-                                                  .value) {
+                                              if (fav) {
                                                 product_Detail_Controller
                                                     .removefrowishlist(
                                                       item!.id.toString(),
                                                     );
+                                                product_Detail_Controller.isChecked.value=false;
                                               } else {
                                                 product_Detail_Controller
                                                     .addWishList();
+                                                product_Detail_Controller.isChecked.value=true;
+
                                               }
-                                              /* product_Detail_Controller
-                                            .isChecked
-                                            .value =
-                                        !product_Detail_Controller
-                                            .isChecked
-                                            .value;*/
                                             },
                                             child: SvgPicture.asset(
-                                              product_Detail_Controller
-                                                      .isChecked
-                                                      .value
+                                              fav
                                                   ? "assets/images/wishlistRed.svg"
                                                   : "assets/images/wishlist.svg",
                                             ),

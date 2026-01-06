@@ -1,7 +1,9 @@
 import 'package:e_commerce_app/AppColors.dart';
+import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/Product_Detail_Controller.dart';
 import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Custom_Functions.dart';
+import 'package:e_commerce_app/View/Tabbar/Account/CartScreen.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/AllCategories.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/Product_Detail.dart';
 import 'package:e_commerce_app/View/Tabbar/Home/ViewAllProducts_By_Categories.dart';
@@ -12,7 +14,10 @@ import 'package:get/get.dart';
 class Home extends StatelessWidget {
   Home({super.key});
 
-  final home_Controller = Get.put(HomeController());
+  final home_Controller = Get.find<HomeController>();
+  final CartController cartController = Get.put(CartController());
+
+  //final home_Controller = Get.put(HomeController);
 
   @override
   Widget build(BuildContext context) {
@@ -74,24 +79,26 @@ class Home extends StatelessWidget {
                               SizedBox(width: 20),
                               Stack(
                                 children: [
-                                  SvgPicture.asset("assets/images/cart.svg"),
-                                  if (home_Controller
-                                          .cartController
-                                          .cartlist
-                                          .length >
+                                  InkWell(
+                                      onTap:(){
+                                        Get.to(Cartscreen());
+                                      },
+                                      child: SvgPicture.asset("assets/images/cart.svg")),
+                                  if ( /*home_Controller
+                                          .*/ cartController.cartlist.length >
                                       0)
                                     Positioned(
                                       right: 0,
                                       top: 0,
                                       child: Container(
-                                        padding: const EdgeInsets.all(2.5),
+                                        padding: const EdgeInsets.all(4),
                                         decoration: const BoxDecoration(
                                           color: Colors.red,
                                           shape: BoxShape.circle,
                                         ),
                                         child: Obx(() {
                                           return Text(
-                                            '${home_Controller.cartController.cartlist.length}',
+                                            '${ /*home_Controller.*/ cartController.cartlist.length}',
                                             style: const TextStyle(
                                               color: Colors.white,
                                               fontSize: 9.5,
@@ -397,12 +404,12 @@ class Home extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             var item = home_Controller.filteredProducts[index];
-            final inCart =  Custom_Functions().isInCart(item.id.toString());
+           /* final inCart = Custom_Functions().isInCart(item.id.toString());
             if (inCart == true) {
               home_Controller.txtadded.value = "Added";
-            }else{
+            } else {
               home_Controller.txtadded.value = "Add to Cart";
-            }
+            }*/
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -465,46 +472,54 @@ class Home extends StatelessWidget {
 
                       SizedBox(height: 4),
 
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.tabSelectedColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
+                      FutureBuilder<bool>(
+                        future: Custom_Functions().isInCart(item.id.toString()),
+                        builder: (contex, snapshot) {
+                          final isIncart = snapshot.data ?? false;
+                          return SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.tabSelectedColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
 
-                          onPressed: () async {
-                            final productId = item.id;
-                            home_Controller.txtadded.value = "Add to cart";
-                            /*final inCart = Custom_Functions().isInCart(
-                              productId.toString(),
-                            );*/
-                            if (await inCart) {
-                              home_Controller.txtadded.value = "Added";
-                              Get.snackbar(
-                                "Already in Cart",
-                                "This product is already added",
-                                snackPosition: SnackPosition.BOTTOM,
-                              );
-                            } else {
-                              Get.snackbar(
-                                "Item Added",
-                                "SuccessFully Added in your cart",
-                                snackPosition: SnackPosition.BOTTOM,
-                              );
-                              Custom_Functions().addtoCart(
-                                item,
-                                home_Controller.selectedIndex.value,
-                              );
-                            }
-                          },
-                          child: Text(
-                            home_Controller.txtadded.value,
-                            style: TextStyle(color: Colors.white, fontSize: 14),
-                          ),
-                        ),
+                              onPressed: () async {
+                                //home_Controller.txtadded.value = "Add to cart";
+                                /*final inCart = Custom_Functions().isInCart(
+                                productId.toString(),
+                              );*/
+                                if ( isIncart) {
+                                  //home_Controller.txtadded.value = "Added";
+                                  Get.snackbar(
+                                    "Already in Cart",
+                                    "This product is already added",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                  );
+                                } else {
+                                  Get.snackbar(
+                                    "Item Added",
+                                    "SuccessFully Added in your cart",
+                                    snackPosition: SnackPosition.BOTTOM,
+                                  );
+                                  await Custom_Functions().addtoCart(
+                                    item,
+                                    home_Controller.selectedIndex.value,
+                                  );
+                                }
+                              },
+                              child: Text(
+                                isIncart?"Added":"Add to Cart",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

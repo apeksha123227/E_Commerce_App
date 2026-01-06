@@ -33,14 +33,22 @@ class Cartscreen extends StatelessWidget {
                       "Delivery to",
                     ),
                   ),
-          Custom_Functions.getTextStyle_16_blackTxt(
-            "",
-          ),
-                /*  Obx(() {
-                    return Custom_Functions.getTextStyle_16_blackTxt(
-                      *//*"${cart_Controller.homeController.address.value}"*//*"",
+                  Obx(() {
+                    return Expanded(
+                      child:  Text(
+                        "${cart_Controller.homeController.address.value}",
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color:
+                          AppColors.tabUnselectedColor,
+                          fontSize: 14,
+                        ),
+                      ),
+                      /*Custom_Functions.getTextStyle_16_blackTxt(
+                        "${cart_Controller.homeController.address.value}",
+                      ),*/
                     );
-                  }),*/
+                  }),
                 ],
               ),
             ),
@@ -154,12 +162,17 @@ class Cartscreen extends StatelessWidget {
                                                       width: 0.6, // lite stroke
                                                     ),
                                                   ),
-                                                  child: SvgPicture.asset(
+                                                  child: /* SvgPicture.asset(
                                                     "assets/images/delete.svg",
                                                     height: 17,
                                                     width: 17,
                                                     color: AppColors
                                                         .tabUnselectedColor,
+                                                  ),*/ Icon(
+                                                    Icons.remove,
+                                                    color: AppColors
+                                                        .tabUnselectedColor,
+                                                    size: 17,
                                                   ),
                                                 ),
                                               ),
@@ -184,12 +197,17 @@ class Cartscreen extends StatelessWidget {
                                                       width: 0.6, // lite stroke
                                                     ),
                                                   ),
-                                                  child: SvgPicture.asset(
+                                                  child: /*SvgPicture.asset(
                                                     "assets/images/delete.svg",
                                                     height: 17,
                                                     width: 17,
                                                     color: AppColors
                                                         .tabUnselectedColor,
+                                                  ),*/ Icon(
+                                                    Icons.add,
+                                                    color: AppColors
+                                                        .tabUnselectedColor,
+                                                    size: 17,
                                                   ),
                                                 ),
                                               ),
