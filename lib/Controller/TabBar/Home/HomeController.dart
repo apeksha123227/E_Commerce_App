@@ -6,8 +6,11 @@ import 'package:e_commerce_app/Controller/TabBar/Account/CartController.dart';
 import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Categories.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class HomeController extends GetxController {
   RxList<String> bannerList = <String>[
@@ -21,18 +24,27 @@ class HomeController extends GetxController {
   RxList<Categories> categoryList = <Categories>[].obs;
   RxBool isLoading = false.obs;
   RxString selectedCategoriesId = "".obs;
+  RxString txtadded = "Add to Cart".obs;
   RxString selectedCatName = "".obs;
   RxInt selectedIndex = 0.obs;
   final apiService = ApiService();
-  final cartController = Get.find<CartController>();
-
-  //  final FirebaseService service = FirebaseService();
+  final CartController cartController = Get.find<CartController>();
+  final searchController = TextEditingController();
+  RxList<Products> filteredProducts = <Products>[].obs;
+  RxList<Categories> filteredCategories = <Categories>[].obs;
   var address = ''.obs;
+  RxBool showClearIcon = false.obs;
 
   @override
   void onInit() {
     super.onInit();
+    getCurrentAddress();
     getRecentProducts();
+
+    searchController.addListener(() {
+      showClearIcon.value = searchController.text.isNotEmpty;
+      searchProductsAndCategories(searchController.text);
+    });
   }
 
   Future<void> getRecentProducts() async {
@@ -54,6 +66,9 @@ class HomeController extends GetxController {
           .map((e) => Categories.fromJson(e))
           .toList();
 
+      filteredProducts.assignAll(productsList);
+      filteredCategories.assignAll(categoryList);
+
       print("Products & Categories loaded successfully");
     } catch (e) {
       print("Error occurred: $e");
@@ -61,7 +76,7 @@ class HomeController extends GetxController {
       isLoading.value = false;
     }
   }
-/*
+
   Future<void> getCurrentAddress() async {
     try {
       // Check location permission
@@ -93,5 +108,37 @@ class HomeController extends GetxController {
       address.value = "Could not get location";
       print(e);
     }
-  }*/
+  }
+
+  void searchProductsAndCategories(String query) {
+    if (query.isEmpty) {
+      filteredProducts.assignAll(productsList);
+      filteredCategories.assignAll(categoryList);
+      return;
+    }
+
+    final search = query.toLowerCase().replaceAll(RegExp(r'\s+'), '');
+
+    // Product search
+    filteredProducts.assignAll(
+      productsList.where((product) {
+        return (product.title ?? '')
+                .toLowerCase()
+                .replaceAll(RegExp(r'\s+'), '')
+                .contains(search) ||
+            (product.slug ?? '').toLowerCase().contains(search);
+      }),
+    );
+
+    // Category search
+    filteredCategories.assignAll(
+      categoryList.where((category) {
+        return (category.name ?? '')
+                .toLowerCase()
+                .replaceAll(RegExp(r'\s+'), '')
+                .contains(search) ||
+            (category.slug ?? '').toLowerCase().contains(search);
+      }),
+    );
+  }
 }

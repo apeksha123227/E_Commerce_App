@@ -21,6 +21,7 @@ class Custom_Functions {
   }) {
     return Text(
       "${text}",
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         color: AppColors.blackText,
         fontSize: 16,
@@ -81,8 +82,9 @@ class Custom_Functions {
     );
   }
 
-  Future<bool> isInCart(String productId) {
-    return service.isProductInCart(productId);
+ Future<bool> isInCart(String productId) async {
+    bool value=await service.isProductInCart(productId);
+    return value;
   }
 
   Future<void> addtoCart(Products product, int selectedIndex) async {

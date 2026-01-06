@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/Controller/LoginScreen_Controller.dart';
+import 'package:e_commerce_app/View/Registration.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -80,7 +81,7 @@ class LoginScreen extends StatelessWidget {
 
                   Text(
                     "Password",
-                    style: TextStyle(fontSize: 15, color: AppColors.blackText),
+                    style: TextStyle(fontSize: 15, color: AppColors.LightGreyText),
                   ),
                   SizedBox(height: 10),
 
@@ -126,9 +127,36 @@ class LoginScreen extends StatelessWidget {
                     );
                   }),
                   SizedBox(height: 10),
-                  Text(
-                    "Forgot Password?",
-                    style: TextStyle(fontSize: 13, color: AppColors.blackText),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Already have an Account ?",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.blackText,
+                        ),
+                      ),
+
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Registration(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          " Create an Account ",
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.tabSelectedColor,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 20),
 

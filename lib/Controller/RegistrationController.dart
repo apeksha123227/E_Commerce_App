@@ -4,10 +4,16 @@ import 'package:e_commerce_app/Model/TabBar/Account/UserModel.dart';
 import 'package:e_commerce_app/Storage/SecureStorageHelper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 class RegistrationController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  /*
+  final TextEditingController conpasswordController = TextEditingController();
+*/
   final TextEditingController nameController = TextEditingController();
 
   //final TextEditingController passwordController = TextEditingController();
@@ -16,6 +22,20 @@ class RegistrationController extends GetxController {
   var isPasswordVisible = false.obs;
   var user = Rxn<UserModel>();
   final apiService = ApiService();
+  RxString avatarPath = "".obs;
+
+  /*  RxString strPassword="".obs;
+  RxString strConform_Password="".obs;*/
+
+  Future<void> pickAvatar() async {
+    final picker = ImagePicker();
+    final pickedFile =
+    await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      avatarPath.value = pickedFile.path;
+    }
+  }
 
   Future<void> registration() async {
     if (!formKey.currentState!.validate()) return;
@@ -26,6 +46,7 @@ class RegistrationController extends GetxController {
         "name": nameController.text.trim(),
         "email": emailController.text.trim(),
         "password": passwordController.text.trim(),
+        // "avatar": "https://i.pravatar.cc/150",
       });
       isLoading.value = false;
 
@@ -51,6 +72,7 @@ class RegistrationController extends GetxController {
 
     isLoading.value = false;
   }
+
   @override
   void onClose() {
     nameController.dispose();
@@ -58,5 +80,4 @@ class RegistrationController extends GetxController {
     passwordController.dispose();
     super.onClose();
   }
-
 }

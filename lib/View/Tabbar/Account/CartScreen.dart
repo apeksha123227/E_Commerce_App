@@ -33,8 +33,14 @@ class Cartscreen extends StatelessWidget {
                       "Delivery to",
                     ),
                   ),
-
-                  Custom_Functions.getTextStyle_16_blackTxt("Your Address "),
+          Custom_Functions.getTextStyle_16_blackTxt(
+            "",
+          ),
+                /*  Obx(() {
+                    return Custom_Functions.getTextStyle_16_blackTxt(
+                      *//*"${cart_Controller.homeController.address.value}"*//*"",
+                    );
+                  }),*/
                 ],
               ),
             ),

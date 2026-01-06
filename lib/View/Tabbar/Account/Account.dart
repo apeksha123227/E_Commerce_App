@@ -114,7 +114,7 @@ class Account extends StatelessWidget {
                   onTap: () async {
                     Get.to(() => LoginScreen());
                   },
-                  child: accountRows('assets/images/logout.svg', "Login"),
+                  child: accountRows('assets/images/login.svg', "Login"),
                 )
               : InkWell(
                   onTap: () async {

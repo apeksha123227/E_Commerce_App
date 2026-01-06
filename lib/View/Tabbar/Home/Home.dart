@@ -14,7 +14,6 @@ class Home extends StatelessWidget {
 
   final home_Controller = Get.put(HomeController());
 
-
   @override
   Widget build(BuildContext context) {
     final scrren_width = MediaQuery.of(context).size.width;
@@ -25,7 +24,6 @@ class Home extends StatelessWidget {
         child: SingleChildScrollView(
           //   physics: NeverScrollableScrollPhysics(),
           child: Container(
-
             child: /* home_Controller.isLoading.value?Center(child: CircularProgressIndicator()):*/
                 /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
                 home_Controller.isLoading.value)...[*/
@@ -49,36 +47,39 @@ class Home extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Delivery address",
-                                    style: TextStyle(
-                                      color: AppColors.LightGreyText,
-                                      fontSize: 11,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Delivery address",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: AppColors.LightGreyText,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "Delivery address",
-                                    style: TextStyle(
-                                      color: AppColors.blackText,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ],
+                                    Obx(() {
+                                      return Text(
+                                        "${home_Controller.address.value}",
+                                        style: TextStyle(
+                                          color: AppColors.blackText,
+                                          fontSize: 13,
+                                        ),
+                                      );
+                                    }),
+                                  ],
+                                ),
                               ),
-                              Spacer(),
-                             /* SvgPicture.asset(
-                                'assets/images/cart.svg',
-                                width: 20,
-                                height: 20,
-                              ),*/
+                              SizedBox(width: 20),
                               Stack(
                                 children: [
-
                                   SvgPicture.asset("assets/images/cart.svg"),
-                                  if (home_Controller.cartController.cartlist.length > 0)
+                                  if (home_Controller
+                                          .cartController
+                                          .cartlist
+                                          .length >
+                                      0)
                                     Positioned(
                                       right: 0,
                                       top: 0,
@@ -121,6 +122,7 @@ class Home extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: TextField(
+                            controller: home_Controller.searchController,
                             cursorColor: AppColors.tabUnselectedColor,
                             decoration: InputDecoration(
                               hintText: "Search here...",
@@ -128,6 +130,26 @@ class Home extends StatelessWidget {
                                 Icons.search,
                                 color: AppColors.tabUnselectedColor,
                               ),
+                              suffixIcon: Obx(() {
+                                return home_Controller.showClearIcon.value
+                                    ? IconButton(
+                                        onPressed: () {
+                                          home_Controller.searchController
+                                              .clear();
+                                          home_Controller.showClearIcon.value =
+                                              false;
+                                          home_Controller
+                                              .searchProductsAndCategories("");
+                                        },
+                                        icon: SvgPicture.asset(
+                                          "assets/images/close.svg",
+                                          height: 11,
+                                          width: 11,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink();
+                              }),
+
                               border: InputBorder.none,
                               hintStyle: TextStyle(
                                 color:
@@ -191,11 +213,18 @@ class Home extends StatelessWidget {
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                        home_Controller.categoryList.length > 5
+                                        home_Controller
+                                                .filteredCategories
+                                                .length >
+                                            5
                                         ? 6
-                                        : home_Controller.categoryList.length,
+                                        : home_Controller
+                                              .filteredCategories
+                                              .length,
                                     itemBuilder: (context, index) {
-                                      if (home_Controller.categoryList.length >
+                                      if (home_Controller
+                                                  .filteredCategories
+                                                  .length >
                                               5 &&
                                           index == 5) {
                                         return Column(
@@ -220,8 +249,8 @@ class Home extends StatelessWidget {
                                           ],
                                         );
                                       }
-                                      final item =
-                                          home_Controller.categoryList[index];
+                                      final item = home_Controller
+                                          .filteredCategories[index];
 
                                       /* String imageUrl =
                                                   (item.image != null &&
@@ -359,7 +388,7 @@ class Home extends StatelessWidget {
         child: GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: home_Controller.productsList.length,
+          itemCount: home_Controller.filteredProducts.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 10,
@@ -367,14 +396,13 @@ class Home extends StatelessWidget {
             childAspectRatio: 9 / 14.4,
           ),
           itemBuilder: (context, index) {
-            var item = home_Controller.productsList[index];
-
-            /*  String imageUrl =
-                (item.images != null &&
-                    item.images!.isNotEmpty &&
-                    item.images![0].toString().startsWith("http"))
-                ? item.images![0]
-                : "https://via.placeholder.com/150";*/
+            var item = home_Controller.filteredProducts[index];
+            final inCart =  Custom_Functions().isInCart(item.id.toString());
+            if (inCart == true) {
+              home_Controller.txtadded.value = "Added";
+            }else{
+              home_Controller.txtadded.value = "Add to Cart";
+            }
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -449,10 +477,12 @@ class Home extends StatelessWidget {
 
                           onPressed: () async {
                             final productId = item.id;
-                            final inCart = Custom_Functions().isInCart(
+                            home_Controller.txtadded.value = "Add to cart";
+                            /*final inCart = Custom_Functions().isInCart(
                               productId.toString(),
-                            );
+                            );*/
                             if (await inCart) {
+                              home_Controller.txtadded.value = "Added";
                               Get.snackbar(
                                 "Already in Cart",
                                 "This product is already added",
@@ -471,8 +501,7 @@ class Home extends StatelessWidget {
                             }
                           },
                           child: Text(
-                            /* inCart?"Added":*/
-                            "Add to Cart",
+                            home_Controller.txtadded.value,
                             style: TextStyle(color: Colors.white, fontSize: 14),
                           ),
                         ),

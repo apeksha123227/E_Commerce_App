@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/Controller/TabBar/Home/HomeController.dart';
 import 'package:e_commerce_app/Firebase/FirebaseService.dart';
 import 'package:e_commerce_app/Model/TabBar/Home/Products.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,8 @@ class CartController extends GetxController {
   RxString appliedCoupon = "".obs;
   RxDouble discountAmount = 0.0.obs;
   final couponController = TextEditingController();
+ // final homeController = Get.find<HomeController>();
+
 
   @override
   Future<void> onInit() async {
