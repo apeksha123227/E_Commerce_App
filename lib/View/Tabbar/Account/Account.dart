@@ -58,25 +58,31 @@ class Account extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          user.email ?? "",
-                          style: const TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white70,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 25),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              user.email ?? "",
+                              style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white70,
+                              ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 15),
-                        InkWell(
-                          onTap: () {
-                            Get.bottomSheet(_updateBottomSheet());
-                          },
-                          child: const Icon(Icons.edit, color: Colors.white),
-                        ),
-                      ],
+                          const SizedBox(width: 15),
+                          InkWell(
+                            onTap: () {
+                              Get.bottomSheet(_updateBottomSheet());
+                            },
+                            child: const Icon(Icons.edit, color: Colors.white),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 10),
                   ],

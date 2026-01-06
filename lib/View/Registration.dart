@@ -3,6 +3,7 @@ import 'package:e_commerce_app/Controller/RegistrationController.dart';
 import 'package:e_commerce_app/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Registration extends StatelessWidget {
   final registration_Controller = Get.put(RegistrationController());
@@ -32,6 +33,68 @@ class Registration extends StatelessWidget {
                   ),
 
                   SizedBox(height: 50),
+
+                  Center(
+                    child: Obx(() {
+                      return Stack(
+                        children: [
+                          CircleAvatar(
+                            radius: 45,
+                            backgroundColor: Colors.grey.shade300,
+                            backgroundImage:
+                                registration_Controller.avatarFile.value !=
+                                    null
+                                ? FileImage(
+                                    registration_Controller.avatarFile.value!,
+                                  )
+                                : AssetImage("assets/images/placholder.png")
+                                      as ImageProvider,
+                          /*  child:
+                                registration_Controller.avatarFile.value ==
+                                    null
+                                ? Icon(Icons.camera_alt, color: Colors.white)
+                                : null,*/
+                          ),
+                          Positioned(
+                            bottom: 0,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () => showAvatarPicker(registration_Controller),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: const BoxDecoration(
+                                  color: Colors.black54,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  Icons.camera_alt,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                        /*  child: CircleAvatar(
+                          radius: 45,
+                          backgroundColor: Colors.grey.shade300,
+                          backgroundImage:
+                              registration_Controller.avatarFile.value != null
+                              ? FileImage(
+                                  registration_Controller.avatarFile.value!,
+                                )
+                              : AssetImage(
+                                      "assets/images/placholder.png",
+                                    )
+                                    as ImageProvider,
+                          child:
+                              registration_Controller.avatarFile.value == null
+                              ? Icon(Icons.camera_alt, color: Colors.white)
+                              : null,
+                        ),*/
+                      );
+                    }),
+                  ),
+                  SizedBox(height: 10),
                   Text(
                     "Name",
                     style: TextStyle(
@@ -397,6 +460,39 @@ class Registration extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void showAvatarPicker(RegistrationController controller) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text("Take Photo"),
+              onTap: () {
+                Get.back();
+                controller.pickAvatar(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text("Choose from Gallery"),
+              onTap: () {
+                Get.back();
+                controller.pickAvatar(ImageSource.gallery);
+              },
+            ),
+          ],
         ),
       ),
     );
