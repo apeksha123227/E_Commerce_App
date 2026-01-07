@@ -122,26 +122,50 @@ class ApiService {
   }
 
   Future<http.Response> updateProfileImage(
-      int userId,
-      String token,
-      File imageFile,
-      ) async {
-    final url = Uri.parse("${ApiEndPoints.baseUrl}${ApiEndPoints.updateUserProfile}/$userId");
+    int userId,
+    String token,
+    File imageFile,
+  ) async {
+    final url = Uri.parse(
+      "${ApiEndPoints.baseUrl}${ApiEndPoints.updateUserProfile}/$userId",
+    );
 
     var request = http.MultipartRequest('PUT', url);
 
     request.headers['Authorization'] = 'Bearer $token';
 
     request.files.add(
-      await http.MultipartFile.fromPath(
-        'avatar',
-        imageFile.path,
-      ),
+      await http.MultipartFile.fromPath('avatar', imageFile.path),
     );
 
     final streamedResponse = await request.send();
     return await http.Response.fromStream(streamedResponse);
   }
 
+  Future<http.Response> updateUserProfile1(
+    int userId,
+    String token,
+    String name,
+    String email,
+    String? avatarUrl,
+  ) async {
+    final url = Uri.parse(
+      "${ApiEndPoints.baseUrl}${ApiEndPoints.updateUserProfile}/$userId",
+    );
 
+    final body = {"name": name, "email": email};
+
+    if (avatarUrl != null) {
+      body["avatar"] = avatarUrl;
+    }
+
+    return await http.put(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(body),
+    );
+  }
 }

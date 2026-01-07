@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Products {
   int? id;
+  bool? isInCart;
   String? title;
   String? slug;
   int? price;
@@ -17,6 +18,7 @@ class Products {
 
   Products({
     this.id,
+    this.isInCart,
     this.title,
     this.slug,
     this.price,

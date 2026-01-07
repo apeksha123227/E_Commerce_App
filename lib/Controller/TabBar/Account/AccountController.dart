@@ -25,18 +25,15 @@ class Accountcontroller extends GetxController {
     super.onInit();
     await getUserProfile();
   }
-
   Future<void> pickImage(ImageSource source) async {
-    final XFile? image = await imagePicker.pickImage(
-      source: source,
-      imageQuality: 80,
-    );
+    final XFile? image =
+    await imagePicker.pickImage(source: source, imageQuality: 80);
 
     if (image != null) {
       selectedImage.value = File(image.path);
-      await updateProfileWithImage();
     }
   }
+
 
   Future<void> getUserProfile() async {
     try {
@@ -53,6 +50,7 @@ class Accountcontroller extends GetxController {
 
         nameController.text = user.name!;
         emailController.text = user.email!;
+
 
         //save userID
         await SecureStorageHelper.instance.save_UserId(
@@ -79,11 +77,15 @@ class Accountcontroller extends GetxController {
         Get.snackbar("Error", "User not logged in");
         return;
       }
-      if (nameController.text.trim() == usermodel.value?.name &&
-          emailController.text.trim() == usermodel.value?.email) {
+      if (nameController.text.trim() ==
+          usermodel.value?.name &&
+          emailController.text.trim() ==
+              usermodel.value?.email) {
         Get.snackbar("Info", "No changes detected");
         return;
       }
+
+
 
       final response = await apiService.updateUserProfile(
         int.parse(userId),
@@ -116,60 +118,11 @@ class Accountcontroller extends GetxController {
       isLoading.value = false;
     }
   }
-
-  Future<void> updateProfileWithImage() async {
-    isLoading.value = true;
-
-    try {
-      String? token = await SecureStorageHelper.instance.get_AccessToken();
-      String? userId = await SecureStorageHelper.instance.get_UserId();
-
-      if (token == null || userId == null) {
-        Get.snackbar("Error", "User not logged in");
-        return;
-      }
-
-      if (selectedImage.value == null) {
-        Get.snackbar("Error", "Please select an image first");
-        return;
-      }
-
-      final response = await apiService.updateProfileImage(
-        int.parse(userId),
-        token,
-        selectedImage.value!,
-      );
-
-      if (response.statusCode == 200) {
-        final updatedUser = UserModel.fromJson(jsonDecode(response.body));
-        usermodel.value = updatedUser;
-
-        selectedImage.value = null;
-
-        Get.snackbar(
-          "Success",
-          "Profile updated successfully",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      } else {
-        Get.snackbar(
-          "Error",
-          "Update failed (${response.statusCode})",
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-    } catch (e) {
-      print("Update error: $e");
-      Get.snackbar("Error", "Something went wrong");
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
   @override
   void onClose() {
     nameController.dispose();
     emailController.dispose();
     super.onClose();
   }
+
 }
