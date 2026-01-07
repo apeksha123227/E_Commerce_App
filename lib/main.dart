@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/Notification/NotificationController1.dart';
 import 'package:e_commerce_app/View/Registration.dart';
 import 'package:e_commerce_app/View/Splash.dart';
@@ -18,13 +17,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
- Get.put(NotificationController1()).init();
+  Get.put(NotificationController1()).init();
   Stripe.publishableKey = "pk_test_xxxxxxxxxxxxxxxxx";
   await Stripe.instance.applySettings();
 
-
-//  Get.put(HomeController(), permanent: true);
- // Get.put(CartController()/*, permanent: true*/);
+  //  Get.put(HomeController(), permanent: true);
+  // Get.put(CartController()/*, permanent: true*/);
 
   runApp(const MyApp());
 }

@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/AppColors.dart';
 import 'package:e_commerce_app/Controller/RegistrationController.dart';
+import 'package:e_commerce_app/Custom_Functions.dart';
 import 'package:e_commerce_app/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -42,14 +43,13 @@ class Registration extends StatelessWidget {
                             radius: 45,
                             backgroundColor: Colors.grey.shade300,
                             backgroundImage:
-                                registration_Controller.avatarFile.value !=
-                                    null
+                                registration_Controller.avatarFile.value != null
                                 ? FileImage(
                                     registration_Controller.avatarFile.value!,
                                   )
                                 : AssetImage("assets/images/placholder.png")
                                       as ImageProvider,
-                          /*  child:
+                            /*  child:
                                 registration_Controller.avatarFile.value ==
                                     null
                                 ? Icon(Icons.camera_alt, color: Colors.white)
@@ -59,7 +59,11 @@ class Registration extends StatelessWidget {
                             bottom: 0,
                             right: 0,
                             child: InkWell(
-                              onTap: () => showAvatarPicker(registration_Controller),
+                              onTap: () {
+                                Custom_Functions().showAvatarPicker(
+                                  onPick: registration_Controller.pickAvatar,
+                                );
+                              },
                               child: Container(
                                 padding: const EdgeInsets.all(6),
                                 decoration: const BoxDecoration(
@@ -460,39 +464,6 @@ class Registration extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  void showAvatarPicker(RegistrationController controller) {
-    Get.bottomSheet(
-      Container(
-        padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text("Take Photo"),
-              onTap: () {
-                Get.back();
-                controller.pickAvatar(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo),
-              title: const Text("Choose from Gallery"),
-              onTap: () {
-                Get.back();
-                controller.pickAvatar(ImageSource.gallery);
-              },
-            ),
-          ],
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:e_commerce_app/Api/ApiEndPoints.dart';
 import 'package:e_commerce_app/Model/TabBar/Account/UserModel.dart';
@@ -83,7 +84,7 @@ class ApiService {
     String email,
     String? token,
   ) async {
-    final url = ApiEndPoints.baseUrl + ApiEndPoints.updateUserProfile;
+    final url = "${ApiEndPoints.baseUrl}${ApiEndPoints.updateUserProfile}/$id";
     print("UpdateUser -> $url");
 
     final response = await http.put(
@@ -119,4 +120,28 @@ class ApiService {
 
     return null;
   }
+
+  Future<http.Response> updateProfileImage(
+      int userId,
+      String token,
+      File imageFile,
+      ) async {
+    final url = Uri.parse("${ApiEndPoints.baseUrl}${ApiEndPoints.updateUserProfile}/$userId");
+
+    var request = http.MultipartRequest('PUT', url);
+
+    request.headers['Authorization'] = 'Bearer $token';
+
+    request.files.add(
+      await http.MultipartFile.fromPath(
+        'avatar',
+        imageFile.path,
+      ),
+    );
+
+    final streamedResponse = await request.send();
+    return await http.Response.fromStream(streamedResponse);
+  }
+
+
 }

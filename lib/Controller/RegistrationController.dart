@@ -41,21 +41,6 @@ class RegistrationController extends GetxController {
     }
   }
 
-  Future<String> uploadAvatar() async {
-    if (avatarFile.value == null) return "";
-
-    final url = ApiEndPoints.baseUrl + ApiEndPoints.registration;
-
-    final request = MultipartRequest('POST', Uri.parse(url));
-
-    request.files.add(
-      await MultipartFile.fromPath('avatar', avatarFile.value!.path),
-    );
-
-    await request.send();
-    return "https://picsum.photos/200";
-  }
-
   Future<void> registration() async {
     if (!formKey.currentState!.validate()) return;
 

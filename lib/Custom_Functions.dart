@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Custom_Functions {
   final FirebaseService service = FirebaseService();
@@ -115,4 +116,44 @@ class Custom_Functions {
     );
     // cartProductIds.add(product.id.toString());
   }
+
+  void showAvatarPicker({
+    required Function(ImageSource source) onPick,
+  }) {
+    Get.bottomSheet(
+      SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+          ),
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text("Take Photo"),
+                onTap: () {
+                  Get.back();
+                  onPick(ImageSource.camera);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo),
+                title: const Text("Choose from Gallery"),
+                onTap: () {
+                  Get.back();
+                  onPick(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+    );
+  }
+
 }
