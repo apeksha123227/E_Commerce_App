@@ -4,7 +4,8 @@ A new Flutter project.
 
 E-Commerce Mobile Application
 
-Developed a scalable e-commerce application using Flutter with GetX for state management, navigation, and dependency injection
+Developed a scalable e-commerce application using Flutter with GetX for state management,
+navigation, and dependency injection
 
 Integrated REST APIs for product listing, user registration, and authentication
 

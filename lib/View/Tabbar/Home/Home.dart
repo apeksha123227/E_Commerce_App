@@ -21,14 +21,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scrren_width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    final scrren_height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    final scrren_width = MediaQuery.of(context).size.width;
+    final scrren_height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
@@ -36,240 +30,239 @@ class Home extends StatelessWidget {
           //   physics: NeverScrollableScrollPhysics(),
           child: Container(
             child: /* home_Controller.isLoading.value?Center(child: CircularProgressIndicator()):*/
-            /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
+                /*   if(home_Controller.isLoading.value && home_Controller.categoryList.isEmpty &&
                 home_Controller.isLoading.value)...[*/
-            Obx(() {
-              if (home_Controller
-                  .isLoading
-                  .value /* &&
-                    home_Controller.categoryList.isEmpty*/) {
-                return Container(
-                  height: scrren_height,
-                  width: scrren_width,
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Delivery address",
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    color: AppColors.LightGreyText,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                Obx(() {
-                                  return Text(
-                                    "${home_Controller.address.value}",
-                                    style: TextStyle(
-                                      color: AppColors.blackText,
-                                      fontSize: 13,
-                                    ),
-                                  );
-                                }),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: 20),
-                          Stack(
+                Obx(() {
+                  if (home_Controller
+                      .isLoading
+                      .value /* &&
+                    home_Controller.categoryList.isEmpty*/ ) {
+                    return Container(
+                      height: scrren_height,
+                      width: scrren_width,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
+                          child: Row(
                             children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.to(Cartscreen());
-                                },
-                                child: SvgPicture.asset(
-                                  "assets/images/cart.svg",
-                                ),
-                              ),
-                              if ( /*home_Controller
-                                          .*/ cartController.cartlist.length >
-                                  0)
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Container(
-                                    padding: const EdgeInsets.all(4),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      shape: BoxShape.circle,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Delivery address",
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        color: AppColors.LightGreyText,
+                                        fontSize: 12,
+                                      ),
                                     ),
-                                    child: Obx(() {
+                                    Obx(() {
                                       return Text(
-                                        '${ /*home_Controller.*/ cartController
-                                            .cartlist.length}',
-                                        style: const TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 9.5,
-                                          fontWeight: FontWeight.bold,
+                                        "${home_Controller.address.value}",
+                                        style: TextStyle(
+                                          color: AppColors.blackText,
+                                          fontSize: 13,
                                         ),
                                       );
                                     }),
-                                  ),
+                                  ],
                                 ),
+                              ),
+                              SizedBox(width: 20),
+                              Stack(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.to(Cartscreen());
+                                    },
+                                    child: SvgPicture.asset(
+                                      "assets/images/cart.svg",
+                                    ),
+                                  ),
+                                  if ( /*home_Controller
+                                          .*/ cartController.cartlist.length >
+                                      0)
+                                    Positioned(
+                                      right: 0,
+                                      top: 0,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: const BoxDecoration(
+                                          color: Colors.red,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Obx(() {
+                                          return Text(
+                                            '${ /*home_Controller.*/ cartController.cartlist.length}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 9.5,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                              SizedBox(width: 15),
+                              SvgPicture.asset(
+                                'assets/images/Notification.svg',
+                                width: 22,
+                                height: 22,
+                              ),
                             ],
                           ),
-                          SizedBox(width: 15),
-                          SvgPicture.asset(
-                            'assets/images/Notification.svg',
-                            width: 22,
-                            height: 22,
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Card(
-                      elevation: 3,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TextField(
-                        controller: home_Controller.searchController,
-                        cursorColor: AppColors.tabUnselectedColor,
-                        decoration: InputDecoration(
-                          hintText: "Search here...",
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: AppColors.tabUnselectedColor,
+                      SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Card(
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          suffixIcon: Obx(() {
-                            return home_Controller.showClearIcon.value
-                                ? IconButton(
-                              onPressed: () {
-                                home_Controller.searchController
-                                    .clear();
-                                home_Controller.showClearIcon.value =
-                                false;
-                                home_Controller
-                                    .searchProductsAndCategories("");
+                          child: TextField(
+                            controller: home_Controller.searchController,
+                            cursorColor: AppColors.tabUnselectedColor,
+                            decoration: InputDecoration(
+                              hintText: "Search here...",
+                              prefixIcon: Icon(
+                                Icons.search,
+                                color: AppColors.tabUnselectedColor,
+                              ),
+                              suffixIcon: Obx(() {
+                                return home_Controller.showClearIcon.value
+                                    ? IconButton(
+                                        onPressed: () {
+                                          home_Controller.searchController
+                                              .clear();
+                                          home_Controller.showClearIcon.value =
+                                              false;
+                                          home_Controller
+                                              .searchProductsAndCategories("");
+                                        },
+                                        icon: SvgPicture.asset(
+                                          "assets/images/close.svg",
+                                          height: 11,
+                                          width: 11,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink();
+                              }),
+
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                color:
+                                    AppColors.LightGreyText, // hint text color
+                              ),
+                            ),
+                            style: TextStyle(
+                              color: AppColors.tabUnselectedColor,
+                              fontSize: 15, // text color
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Obx(() {
+                        return SizedBox(
+                          height: 150,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 18),
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: home_Controller.bannerList.length,
+                              itemBuilder: (context, index) {
+                                final item = home_Controller.bannerList[index];
+                                return Container(
+                                  width: 260,
+                                  margin: EdgeInsets.only(right: 3),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Image.asset(item, fit: BoxFit.fill),
+                                  ),
+                                );
                               },
-                              icon: SvgPicture.asset(
-                                "assets/images/close.svg",
-                                height: 11,
-                                width: 11,
-                              ),
-                            )
-                                : const SizedBox.shrink();
-                          }),
-
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                            color:
-                            AppColors.LightGreyText, // hint text color
+                            ),
                           ),
-                        ),
-                        style: TextStyle(
-                          color: AppColors.tabUnselectedColor,
-                          fontSize: 15, // text color
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Obx(() {
-                    return SizedBox(
-                      height: 150,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 18),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: home_Controller.bannerList.length,
-                          itemBuilder: (context, index) {
-                            final item = home_Controller.bannerList[index];
-                            return Container(
-                              width: 260,
-                              margin: EdgeInsets.only(right: 3),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(15),
-                                child: Image.asset(item, fit: BoxFit.fill),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    );
-                  }),
+                        );
+                      }),
 
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Custom_Functions.getTextStyle_16_blackTxt(
-                      "Category",
-                      fontweight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Obx(() {
-                          return /*home_Controller.categoryList.isEmpty &&
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Custom_Functions.getTextStyle_16_blackTxt(
+                          "Category",
+                          fontweight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Obx(() {
+                              return /*home_Controller.categoryList.isEmpty &&
                               home_Controller.isLoading.value
                               ? Center(child: CircularProgressIndicator())
                               : */ Expanded(
-                            child: SizedBox(
-                              height: 80,
-                              width: double.infinity,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount:
-                                home_Controller
-                                    .filteredCategories
-                                    .length >
-                                    5
-                                    ? 6
-                                    : home_Controller
-                                    .filteredCategories
-                                    .length,
-                                itemBuilder: (context, index) {
-                                  if (home_Controller
-                                      .filteredCategories
-                                      .length >
-                                      5 &&
-                                      index == 5) {
-                                    return Column(
-                                      children: [
-                                        InkWell(
-                                          onTap: () =>
-                                              Get.to(AllCategories()),
-                                          child: SvgPicture.asset(
-                                            'assets/images/All.svg',
-                                            width: 50,
-                                            height: 50,
-                                          ),
-                                        ),
-                                        Text(
-                                          "All",
-                                          style: TextStyle(
-                                            color: AppColors
-                                                .tabUnselectedColor,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  final item = home_Controller
-                                      .filteredCategories[index];
+                                child: SizedBox(
+                                  height: 80,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        home_Controller
+                                                .filteredCategories
+                                                .length >
+                                            5
+                                        ? 6
+                                        : home_Controller
+                                              .filteredCategories
+                                              .length,
+                                    itemBuilder: (context, index) {
+                                      if (home_Controller
+                                                  .filteredCategories
+                                                  .length >
+                                              5 &&
+                                          index == 5) {
+                                        return Column(
+                                          children: [
+                                            InkWell(
+                                              onTap: () =>
+                                                  Get.to(AllCategories()),
+                                              child: SvgPicture.asset(
+                                                'assets/images/All.svg',
+                                                width: 50,
+                                                height: 50,
+                                              ),
+                                            ),
+                                            Text(
+                                              "All",
+                                              style: TextStyle(
+                                                color: AppColors
+                                                    .tabUnselectedColor,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      }
+                                      final item = home_Controller
+                                          .filteredCategories[index];
 
-                                  /* String imageUrl =
+                                      /* String imageUrl =
                                                   (item.image != null &&
                                                       item.image!.isNotEmpty &&
                                                       item.image!.startsWith(
@@ -278,114 +271,116 @@ class Home extends StatelessWidget {
                                                   ? item.image!
                                                   : "https://via.placeholder.com/150";*/
 
-                                  return Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          /* home_Controller
+                                      return Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              /* home_Controller
                                                           .selectedCategoriesId
                                                           .value = item.id
                                                           .toString();*/
-                                          home_Controller
-                                              .selectedCatName
-                                              .value = item.name
-                                              .toString();
-                                          Get.to(
-                                            ViewAllProducts_By_Categorie(),
-                                            arguments: {
-                                              "CategoriesID": item.id
-                                                  .toString(),
-                                              "CategoriesName": item.name
-                                                  .toString(),
+                                              home_Controller
+                                                  .selectedCatName
+                                                  .value = item.name
+                                                  .toString();
+                                              Get.to(
+                                                ViewAllProducts_By_Categorie(),
+                                                arguments: {
+                                                  "CategoriesID": item.id
+                                                      .toString(),
+                                                  "CategoriesName": item.name
+                                                      .toString(),
+                                                },
+                                              );
                                             },
-                                          );
-                                        },
-                                        child: Container(
-                                          width: 50,
-                                          height: 50,
-                                          margin: EdgeInsets.only(
-                                            right: 15,
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                            BorderRadius.circular(15),
-                                            child: Image.network(
-                                              item.image ?? "",
-                                              fit: BoxFit.fill,
-                                              errorBuilder:
-                                                  (context,
-                                                  error,
-                                                  stackTrace,) {
-                                                return Image.asset(
-                                                  "assets/images/placholder.png",
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              margin: EdgeInsets.only(
+                                                right: 15,
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(15),
+                                                child: Image.network(
+                                                  item.image ?? "",
                                                   fit: BoxFit.fill,
-                                                );
-                                              },
+                                                  errorBuilder:
+                                                      (
+                                                        context,
+                                                        error,
+                                                        stackTrace,
+                                                      ) {
+                                                        return Image.asset(
+                                                          "assets/images/placholder.png",
+                                                          fit: BoxFit.fill,
+                                                        );
+                                                      },
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
+                                          SizedBox(height: 5),
 
-                                      SizedBox(
-                                        width: 50,
-                                        child: Text(
-                                          textAlign: TextAlign.center,
-                                          item.name!,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            color: AppColors
-                                                .tabUnselectedColor,
+                                          SizedBox(
+                                            width: 50,
+                                            child: Text(
+                                              textAlign: TextAlign.center,
+                                              item.name!,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                color: AppColors
+                                                    .tabUnselectedColor,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                },
-                              ),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      children: [
-                        Custom_Functions.getTextStyle_16_blackTxt(
-                          "Recent product",
-                          fontweight: FontWeight.bold,
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            }),
+                          ],
                         ),
-                        Spacer(),
-                        Row(
+                      ),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                        child: Row(
                           children: [
                             Custom_Functions.getTextStyle_16_blackTxt(
-                              "Filters",
+                              "Recent product",
+                              fontweight: FontWeight.bold,
                             ),
-                            SizedBox(width: 15),
-                            SvgPicture.asset(
-                              'assets/images/Filter.svg',
-                              width: 15,
-                              height: 15,
+                            Spacer(),
+                            Row(
+                              children: [
+                                Custom_Functions.getTextStyle_16_blackTxt(
+                                  "Filters",
+                                ),
+                                SizedBox(width: 15),
+                                SvgPicture.asset(
+                                  'assets/images/Filter.svg',
+                                  width: 15,
+                                  height: 15,
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  GridForProdcut(),
-                  //SizedBox(height: 10),
-                ],
-              );
-            }),
+                      ),
+                      SizedBox(height: 10),
+                      GridForProdcut(),
+                      //SizedBox(height: 10),
+                    ],
+                  );
+                }),
           ),
         ),
       ),
@@ -480,61 +475,11 @@ class Home extends StatelessWidget {
 
                       SizedBox(height: 4),
 
-                      /*  FutureBuilder<bool>(
-                        future: Custom_Functions().isInCart(item.id.toString()),
-                        builder: (contex, snapshot) {
-                          final isIncart = snapshot.data ?? false;
-                          return SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.tabSelectedColor,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                              ),
-
-                              onPressed: () async {
-                                //home_Controller.txtadded.value = "Add to cart";
-                                */
-                      /*final inCart = Custom_Functions().isInCart(
-                                productId.toString(),
-                              );*/
-                      /*
-                                if ( isIncart) {
-                                  //home_Controller.txtadded.value = "Added";
-                                  Get.snackbar(
-                                    "Already in Cart",
-                                    "This product is already added",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                  );
-                                } else {
-                                  Get.snackbar(
-                                    "Item Added",
-                                    "SuccessFully Added in your cart",
-                                    snackPosition: SnackPosition.BOTTOM,
-                                  );
-                                  await Custom_Functions().addtoCart(
-                                    item,
-                                    home_Controller.selectedIndex.value,
-                                  );
-                                }
-                              },
-                              child: Text(
-                                isIncart?"Added":"Add to Cart",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),*/
                       Obx(() {
-                        final inCart = Custom_Functions().isInCart(
+                        final isInCart = home_Controller.isInCart(
                           item.id.toString(),
                         );
+
                         return SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
@@ -545,33 +490,27 @@ class Home extends StatelessWidget {
                               ),
                             ),
 
-                            onPressed: () async {
-                              //home_Controller.txtadded.value = "Add to cart";
-                              /*final inCart = Custom_Functions().isInCart(
-                                    productId.toString(),
-                                  );*/
-                              if (await inCart) {
-                                //home_Controller.txtadded.value = "Added";
+                            onPressed: () {
+                              if (isInCart) {
+                                home_Controller.removeFromCart(
+                                  item.id.toString(),
+                                );
                                 Get.snackbar(
-                                  "Already in Cart",
-                                  "This product is already added",
+                                  "Item Remove ",
+                                  "Successfully Remove to your cart",
                                   snackPosition: SnackPosition.BOTTOM,
                                 );
                               } else {
+                                home_Controller.addToCart(item);
                                 Get.snackbar(
                                   "Item Added",
-                                  "SuccessFully Added in your cart",
+                                  "Successfully added to your cart",
                                   snackPosition: SnackPosition.BOTTOM,
-                                );
-                                await Custom_Functions().addtoCart(
-                                  item,
-                                  home_Controller.selectedIndex.value,
                                 );
                               }
                             },
                             child: Text(
-                              await inCart ?"Added" :
-                              "Add to Cart",
+                              isInCart ? "Remove" : "Add to Cart",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 14,
@@ -580,6 +519,23 @@ class Home extends StatelessWidget {
                           ),
                         );
                       }),
+                      /*    Obx(() {
+                        final isInCart = home_Controller.isInCart(
+                          item.id.toString(),
+                        );
+                        return ElevatedButton(
+                          onPressed: () async {
+                            if (isInCart) {
+                              await home_Controller.removeFromCart(
+                                item.id.toString(),
+                              );
+                            } else {
+                              await home_Controller.addToCart(item);
+                            }
+                          },
+                          child: Text(isInCart ? "Added" : "Add to Cart"),
+                        );
+                      }),*/
                     ],
                   ),
                 ),

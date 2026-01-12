@@ -1,10 +1,12 @@
 import 'package:e_commerce_app/AppColors.dart';
+import 'package:e_commerce_app/Controller/WelCome_Controller.dart';
 import 'package:e_commerce_app/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class WelCome extends StatelessWidget {
-  const WelCome({super.key});
+   WelCome({super.key});
+  final welcomeController =Get.put(WelCome_Controller());
 
   @override
   Widget build(BuildContext context) {

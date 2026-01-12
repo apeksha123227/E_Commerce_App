@@ -171,55 +171,50 @@ class ViewAllProducts_By_Categorie extends StatelessWidget {
 
                                   SizedBox(height: 4),
 
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            AppColors.tabSelectedColor,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            8,
+                                  Obx(() {
+                                    final isInCart = categoryController.isInCart(
+                                      item.id.toString(),
+                                    );
+
+                                    return SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: AppColors.tabSelectedColor,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                        ),
+
+                                        onPressed: () {
+                                          if (isInCart) {
+                                            categoryController.removeFromCart(
+                                              item.id.toString(),
+                                            );
+                                            Get.snackbar(
+                                              "Item Remove ",
+                                              "Successfully Remove to your cart",
+                                              snackPosition: SnackPosition.BOTTOM,
+                                            );
+                                          } else {
+                                            categoryController.addToCart(item);
+                                            Get.snackbar(
+                                              "Item Added",
+                                              "Successfully added to your cart",
+                                              snackPosition: SnackPosition.BOTTOM,
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          isInCart ? "Remove" : "Add to Cart",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 14,
                                           ),
                                         ),
                                       ),
-                                      onPressed: () async {
-                                        final item = categoryController
-                                            .productList[index];
-                                        final productId = item.id;
-                                        final inCart = Custom_Functions()
-                                            .isInCart(productId.toString());
-                                        if (await inCart) {
-                                          Get.snackbar(
-                                            "Already in Cart",
-                                            "This product is already added",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                          );
-                                        } else {
-                                          Get.snackbar(
-                                            "Item Added",
-                                            "SuccessFully Added in your cart",
-                                            snackPosition: SnackPosition.BOTTOM,
-                                          );
-                                          Custom_Functions().addtoCart(
-                                            item,
-                                            int.parse(
-                                              categoryController
-                                                  .getSelectedCategorieId
-                                                  .value,
-                                            ),
-                                          );
-                                        }
-                                      },
-                                      child: Text(
-                                        "Add to Cart",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                    );
+                                  }),
                                 ],
                               ),
                             ),

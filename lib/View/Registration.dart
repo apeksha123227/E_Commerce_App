@@ -401,12 +401,14 @@ class Registration extends StatelessWidget {
                         },),*/
                       InkWell(
                         onTap: () {
-                          Navigator.push(
+                          Get.delete<RegistrationController>();
+                          Get.off(LoginScreen());
+                         /* Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => LoginScreen(),
                             ),
-                          );
+                          );*/
                         },
                         child: Text(
                           " Login ",

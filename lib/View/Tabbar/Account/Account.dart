@@ -140,11 +140,20 @@ class Account extends StatelessWidget {
                   // Show Login button ONLY if user is NOT logged in
                   if (user == null) ...[
                     const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        Get.to(() => LoginScreen());
-                      },
-                      child: const Text("Login"),
+                    CircleAvatar(
+                      radius: 80,
+                      backgroundColor: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: ClipOval(
+                          child: Image.asset(
+                            "assets/images/placholder.png",
+                            width: 160,
+                            height: 160,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 10),
                   ],
@@ -168,7 +177,7 @@ class Account extends StatelessWidget {
           user == null
               ? InkWell(
                   onTap: () async {
-                    Get.to(() => LoginScreen());
+                    Get.to(() => WelCome());
                   },
                   child: accountRows('assets/images/login.svg', "Login"),
                 )

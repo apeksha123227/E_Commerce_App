@@ -93,11 +93,11 @@ class Custom_Functions {
     return value;
   }
 
-  Future<void> addtoCart(Products product, int selectedIndex) async {
+  /*Future<void> addtoCart(Products product, int selectedIndex) async {
     List<String> selectedImage = [];
-    /* final selectedImage = product.images != null && product.images!.isNotEmpty
+    *//* final selectedImage = product.images != null && product.images!.isNotEmpty
         ? [product.images![selectedIndex]]
-        : <String>[];*/
+        : <String>[];*//*
     if (product.images != null && product.images!.isNotEmpty) {
       // Clamp selectedIndex so it never goes out of range
       int index = selectedIndex.clamp(0, product.images!.length - 1);
@@ -115,7 +115,27 @@ class Custom_Functions {
       ),
     );
     // cartProductIds.add(product.id.toString());
+  }*/
+  Future<void> addtoCart(Products product, int selectedIndex) async {
+    List<String> selectedImage = [];
+
+    if (product.images != null && product.images!.isNotEmpty) {
+      int index = selectedIndex.clamp(0, product.images!.length - 1);
+      selectedImage = [product.images![index]];
+    }
+
+    final cartProduct = Products(
+      id: product.id,
+      quantity: 1,
+      price: product.price,
+      images: selectedImage,
+      title: product.title,
+      categoryName: product.category?.name,
+    );
+
+    await service.addtoCart(cartProduct);
   }
+
 
   void showAvatarPicker({
     required Function(ImageSource source) onPick,

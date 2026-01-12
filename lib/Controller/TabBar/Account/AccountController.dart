@@ -54,9 +54,9 @@ class Accountcontroller extends GetxController {
 
         //save userID
         await SecureStorageHelper.instance.save_UserId(
-          userid: usermodel!.value!.id.toString(),
+          userid: usermodel.value!.id.toString(),
         );
-        print("userId ${usermodel!.value!.id.toString()}");
+        print("userId ${usermodel.value!.id.toString()}");
       }
     } catch (e) {
       print(e);
